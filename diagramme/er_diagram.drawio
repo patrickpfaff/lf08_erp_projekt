@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" modified="2024-06-11T08:20:16.931Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0" version="24.5.2" etag="MR9jmb4i5LQGfi-Cz3PE" type="device">
+  <diagram id="415Xjly7tCgpQv022EDN" name="Seite-1">
+    <mxGraphModel dx="1113" dy="1104" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-1" value="Adresse" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="70" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-3" value="Hausnummer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="360" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-4" value="Name" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="687.5" y="360" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-5" value="Mitarbeiter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-6" value="Abteilung" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="110" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-7" value="Adresse" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-8" value="Ort" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="637.5" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-9" value="Id" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="480" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-11" value="Angestellt seit" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-12" value="Jobtitel" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="70" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-13" value="Geburtsdatum" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="110" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-16" value="Beschreibung" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="55" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-18" value="Id" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="70" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-19" value="Leiter" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="45" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-20" value="Name" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="110" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-22" value="Name" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-23" value="Vorname" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="230" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-24" value="Straße" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="380" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-25" value="Ort" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="390" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-26" value="Zusatz" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-27" value="PLZ" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="612.5" y="370" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-28" value="Id" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="60" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-29" value="Id" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="700" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-31" value="Job" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FzVCcaH5rEI2dsI1RSkb-32" value="Name" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="690" width="70" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
