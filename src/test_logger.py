@@ -1,12 +1,6 @@
-from enum import Enum
 from datetime import datetime
-
-class LogLevel(Enum):
-    DEBUG = 0
-    INFORMATION = 1
-    WARNING = 2
-    ERROR = 3
-    CRITICAL = 4
+from enum import Enum
+from log_level import LogLevel
 
 class TestLogger:
     __log_file_path: str = None
@@ -22,7 +16,7 @@ class TestLogger:
         with open(self.__log_file_path, "a") as myfile:
                     myfile.write(text)
 
-    def Log(self, loglevel: Enum, text: str) -> None:
+    def Log(self, loglevel: LogLevel, text: str) -> None:
         text = text.strip()
         if loglevel.value >= self.__min_log_level:
             date = datetime.now().strftime("%H:%M:%S")

@@ -5,7 +5,7 @@ class DatabaseService:
     __cursor: sqlite3.Cursor
     __connection: sqlite3.Connection
 
-    def __init__(self, file_name) -> None:
+    def __init__(self, file_name: str) -> None:
         try:
             fin_file_name: str = ""
             if ".db" in file_name:
