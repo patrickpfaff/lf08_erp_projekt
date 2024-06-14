@@ -46,7 +46,7 @@ class DatabaseService:
         try:
             self.get_cursor().execute(query)
         except:
-            
+            raise 
 
         
 
