@@ -60,7 +60,7 @@ class DatabaseService:
         """
         self.execute_query(q)
 
-    def execute_query(self, query) -> None:
+    def execute_query(self, query) -> sqlite3.Cursor:
         print("Query: ", query)
         res = self.get_cursor().execute(query)
         self.get_connection().commit()
