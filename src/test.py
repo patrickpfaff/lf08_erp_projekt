@@ -1,8 +1,11 @@
 from databaseservice import DatabaseService
+from mitarbeiter_verwaltung import MitarbeiterVerwaltung
 
-test = DatabaseService("test.db")
+test = MitarbeiterVerwaltung()
 
-test.setup_db()
+# test.add_abteilung("Testabteilung", "Sanitär")
+
+test.get_all_abteilungen()
 
 # test.add_test_table()
 
@@ -17,3 +20,4 @@ test.setup_db()
 # print(res.fetchall())
 
 # test.delete_test_table()
+

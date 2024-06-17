@@ -1,9 +1,11 @@
 import sqlite3
-from mitarbeiter_db_setup import MitarbeiterDbSetup
+from log_level import LogLevel
+from test_logger import TestLogger
 
 class DatabaseService:
     __cursor: sqlite3.Cursor
     __connection: sqlite3.Connection
+    __logger: TestLogger
 
     def __init__(self, file_name: str) -> None:
         try:
@@ -17,11 +19,7 @@ class DatabaseService:
             self.__cursor = self.__connection.cursor()
         except:
             print("Fehler beim Zugriff/der Erstellung der Datenbankdatei")
-
-    def setup_db(self) -> None:
-        setup_helper = MitarbeiterDbSetup(self.get_connection(), self.get_cursor())
-
-        setup_helper.setup_mitarbeiter_db()
+        self.__logger = TestLogger(LogLevel.DEBUG, "log.txt")
 
     def get_cursor(self) -> sqlite3.Cursor:
         """
@@ -61,11 +59,23 @@ class DatabaseService:
         self.execute_query(q)
 
     def execute_query(self, query) -> sqlite3.Cursor:
-        print("Query: ", query)
+        self.__logger.LogDebug("Query: " + query)
         res = self.get_cursor().execute(query)
         self.get_connection().commit()
         return res
-            
+    
+    def get_current_highest_id(self, table_name: str, id_column_name: str) -> int | None:
+        q = f"""
+        SELECT MAX({id_column_name}) from {table_name};
+        """
+        cur = self.execute_query(q)
+        res_list = cur.fetchall()
+        print(res_list)
+        if not len(res_list == 1) and len(res_list[0]) == 1:
+            raise Exception("Antwort auf MaxId abfrage hat unerwartetes format:", res_list)
+        else:
+            return res_list[0][0]
+
 
         
 

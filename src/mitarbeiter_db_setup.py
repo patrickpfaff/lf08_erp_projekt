@@ -35,7 +35,7 @@ class MitarbeiterDbSetup:
     def __setup_ort_table(self) -> None:
         self.__execute_query("""
         CREATE TABLE IF NOT EXISTS Ort (
-            Plz int NOT NULL,
+            Plz varchar(6) NOT NULL,
             Name varchar(255) NOT NULL,
             PRIMARY KEY (Plz)
         );""")
@@ -53,7 +53,7 @@ class MitarbeiterDbSetup:
 
         if not self.__check_if_column_exists("Adresse", "Plz"):
             self.__execute_query("""
-            ALTER TABLE Adresse ADD COLUMN Plz INTEGER NOT NULL REFERENCES Ort(Plz);""")
+            ALTER TABLE Adresse ADD COLUMN Plz varchar(6) NOT NULL REFERENCES Ort(Plz);""")
             self.__commit()
 
     def __setup_mitarbeiter_und_abteilung_table(self) -> None:
@@ -85,7 +85,7 @@ class MitarbeiterDbSetup:
 
         if not self.__check_if_column_exists("Abteilung", "LeiterId"):
             self.__execute_query("""
-            ALTER TABLE Abteilung ADD COLUMN LeiterId INTEGER NOT NULL REFERENCES Mitarbeiter(Id);""")
+            ALTER TABLE Abteilung ADD COLUMN LeiterId INTEGER REFERENCES Mitarbeiter(Id);""")
             self.__commit()
 
     def __commit(self):
