@@ -31340,4 +31340,111 @@
         );[08:18:10] DEBUG: Query: 
         SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:18:10] DEBUG: Query: 
         SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:18:12] DEBUG: Mitarbeiter init complete.[08:18:12] DEBUG: Query: 
-        SELECT * FROM Abteilung[08:18:12] DEBUG: Query Response: []
+        SELECT * FROM Abteilung[08:18:12] DEBUG: Query Response: [][17:03:51] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[17:03:51] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[17:03:51] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[17:03:51] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[17:03:51] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[17:03:51] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[17:03:51] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[17:03:51] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[17:03:53] DEBUG: Mitarbeiter init complete.[17:04:38] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[17:06:03] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[17:06:03] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[17:06:03] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[17:06:03] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[17:06:03] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[17:06:03] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[17:06:03] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[17:06:03] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[17:06:05] DEBUG: Mitarbeiter init complete.[17:06:23] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[17:06:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[17:06:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[17:06:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[17:06:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[17:06:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[17:06:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[17:06:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[17:06:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[17:06:58] DEBUG: Mitarbeiter init complete.[17:07:00] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[17:07:00] DEBUG: Query: 
+        INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
+        VALUES (0, 'Sanitär', 'Sanitär, est 1991', 'NULL')

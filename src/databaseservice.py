@@ -15,7 +15,7 @@ class DatabaseService:
             else:
                 fin_file_name = file_name + ".db"
                 
-            self.__connection = sqlite3.connect(fin_file_name)
+            self.__connection = sqlite3.connect(fin_file_name, check_same_thread=False)
             self.__cursor = self.__connection.cursor()
         except:
             print("Fehler beim Zugriff/der Erstellung der Datenbankdatei")
@@ -71,7 +71,7 @@ class DatabaseService:
         cur = self.execute_query(q)
         res_list = cur.fetchall()
         print(res_list)
-        if not len(res_list == 1) and len(res_list[0]) == 1:
+        if not len(res_list) == 1 and len(res_list[0]) == 1:
             raise Exception("Antwort auf MaxId abfrage hat unerwartetes format:", res_list)
         else:
             return res_list[0][0]
