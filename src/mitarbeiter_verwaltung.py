@@ -3,7 +3,6 @@ from log_level import LogLevel
 from mitarbeiter_db_setup import MitarbeiterDbSetup
 from test_logger import TestLogger
 
-
 class MitarbeiterVerwaltung:
     """
     Klasse, welche die API für alle mitarbeiterverwaltungsrelevaten Funktionen bereitstellt
@@ -56,8 +55,29 @@ class MitarbeiterVerwaltung:
         self.__db_service.execute_query(q)
 
     def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, job_id: int, strasse: str, plz: str):
-        pass
+        max_id: int | None = self.__db_service.get_current_highest_id("Mitarbeiter", "Id")
+        max_adresse_id: int | None = self.__db_service.get_current_highest_id("Adresse", "Id")
+        q = f"""
+        INSERT INTO Adresse (Id, Strasse, Plz)
+        VALUES ({str(max_adresse_id + 1)}, '{strasse}', '{plz}')
+        """
+        self.__db_service.execute_query(q)
+        q = f"""
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, JobId, AdresseId)
+        VALUES ({str(max_id + 1)}, '{vorname}', '{nachname}', '{geburtsdatum}', {str(job_id)}, {str(max_adresse_id + 1)})
+        """
+        self.__db_service.execute_query(q)
 
-    def get_ortsname_from_plz(plz: str) -> str:
-        pass
+    def delete_mitarbeiter(self, id: int) -> None:
+        q = f"""
+        DELETE FROM Mitarbeiter WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
+
+    def get_ortsname_from_plz(self, plz: str) -> str:
+        q = f"""
+        SELECT Name FROM Ort WHERE Plz = '{plz}'
+        """
+        res = self.__db_service.execute_query(q)
+        return res.fetchall()[0][0]
         
