@@ -23,6 +23,8 @@ class MitarbeiterDbSetup:
         self.__setup_adresse_table()
         self.__setup_mitarbeiter_und_abteilung_table()
 
+        self.__fill_ortsname_table()
+
     def __setup_job_table(self) -> None:
         self.__execute_query("""
         CREATE TABLE IF NOT EXISTS Job (
@@ -91,6 +93,26 @@ class MitarbeiterDbSetup:
     def __commit(self):
         self.__con.commit()
 
+    def __fill_ortsname_table(self) -> None:
+        with open("zip_codes.csv") as f:
+            data = f.readlines()
+        for line in data[1:]:
+            if len(line) < 10:
+                continue
+            entry = line.split(";")
+
+            name = entry[0]
+            plz = entry[2]
+
+            self.__execute_query(f"""
+            SELECT Plz, Name FROM Ort WHERE Plz = '{plz}'
+            """, True)
+            res = self.__cur.fetchall()
+            if len(res) == 0:
+                self.__execute_query(f"""
+                INSERT INTO Ort VALUES ('{plz}', '{name}')
+                """, True)
+
     def __check_if_column_exists(self, table_name: str, column_name: str) -> bool:
         # Testen, ob eine spalte bereits existiert
         # Gibt einen eintrag zurück wenn sie existiert
@@ -102,8 +124,9 @@ class MitarbeiterDbSetup:
         # print(res)
         return not res == [(0,)]
     
-    def __execute_query(self, query) -> None:
-        self.__logger.LogDebug("Query: " + query)
+    def __execute_query(self, query: str, skip_log: bool = False) -> None:
+        if not skip_log:
+            self.__logger.LogDebug("Query: " + query)
         self.__cur.execute(query)
             
 

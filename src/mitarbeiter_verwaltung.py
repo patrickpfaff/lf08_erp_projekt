@@ -32,6 +32,15 @@ class MitarbeiterVerwaltung:
         res_list = new_cur.fetchall()
         self.__logger.LogDebug("Query Response: " + str(res_list))
         return res_list
+    
+    def get_all_mitarbeiter(self) -> list:
+        q = """
+        SELECT * FROM Mitarbeiter
+        """
+        new_cur = self.__db_service.execute_query(q)
+        res_list = new_cur.fetchall()
+        self.__logger.LogDebug("Query Response: " + str(res_list))
+        return res_list
 
 
     def add_abteilung(self, beschreibung: str, name: str, leiterId: str = None, custom_id: int = None) -> None:
@@ -50,5 +59,5 @@ class MitarbeiterVerwaltung:
         pass
 
     def get_ortsname_from_plz(plz: str) -> str:
-        
+        pass
         

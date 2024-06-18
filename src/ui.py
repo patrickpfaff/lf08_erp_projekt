@@ -1,10 +1,11 @@
-import tkinter as tk
+from tkinter import *
 
-window = tk.Tk()
+window = Tk()
 window.geometry("800x600")
 window.resizable(width=False, height=False)
-greeting = tk.Label(text="Hello, Tkinter")
-
-greeting.pack()
+greeting = Label(window, text="Hello, Tkinter")
+greeting.grid(row=0, column=0)
+test = Label(window, text="test")
+test.grid(row=1, column=1)
 
 window.mainloop()
