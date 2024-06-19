@@ -1,11 +1,57 @@
-<div class="flex flex-column gap-2">
-    <label for="username">Username</label>
-    <input 
-        pInputText 
-        id="username" 
-        aria-describedby="username-help" 
-        [(ngModel)]="value" />
-    <small id="username-help">
-        Enter your username to reset your password.
-    </small>
-</div>
+<h2 style="margin-bottom: 30px;">Mitarbeiter hinzufügen</h2>
+
+<form [formGroup]="mitarbeiterForm">
+
+    <!-- Vorname -->
+    <div class="entryDiv">
+        <div>
+            Vorname
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.vorname" />
+    </div>
+
+    <!-- Nachname -->
+    <div class="entryDiv">
+        <div>
+            Nachname
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.nachname" />
+    </div>
+
+    <!-- Job -->
+    <div class="entryDiv">
+        <div>
+            Job
+        </div>
+        <p-dropdown [options]="jobs" [formControl]="mitarbeiterForm.controls.job" (onShow)="onJobDropDown($event)"></p-dropdown>  
+    </div>
+
+    <!-- Abteilung (DropDown) -->
+    <div class="entryDiv">
+        <div>
+            Abteilung
+        </div>
+        <p-dropdown [options]="departments" [formControl]="mitarbeiterForm.controls.abteilung" (onShow)="onAbteilungDropDown($event)"></p-dropdown>
+    </div>
+
+    <!-- Geburtsdatum -->
+    <div class="entryDiv">
+        <div>
+            Geburtsdatum
+        </div>
+        <p-calendar [formControl]="mitarbeiterForm.controls.geburtsdatum" dateFormat="dd.mm.yy"></p-calendar>
+    </div>
+
+    <!-- Angestellt seit -->
+    <div class="entryDiv">
+        <div>
+            Angestellt seit
+        </div>
+        <p-calendar [formControl]="mitarbeiterForm.controls.angestelltSeit" dateFormat="dd.mm.yy"></p-calendar>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="entryDiv">
+        <button pButton type="button" label="Mitarbeiter hinzufügen" (click)="addMitarbeiter($event)"></button>
+    </div>
+</form>

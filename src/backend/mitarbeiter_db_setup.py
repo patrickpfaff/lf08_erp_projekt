@@ -65,6 +65,7 @@ class MitarbeiterDbSetup:
             Vorname varchar(255) NOT NULL,
             Nachname varchar(255) NOT NULL,
             Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
             JobId int NOT NULL REFERENCES Job(Id),
             AdresseId int NOT NULL REFERENCES Adresse(Id),
             PRIMARY KEY (Id)

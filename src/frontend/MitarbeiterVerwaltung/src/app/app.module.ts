@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navigation/navbar/navbar.component
 import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { MVApiClient } from './services/api';
 import { AddMitarbeiterComponent } from './components/mitarbeiter/add-mitarbeiter/add-mitarbeiter.component';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
@@ -17,6 +17,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { Calendar, CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     BrowserModule,
     BrowserAnimationsModule,
     ButtonModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     RouterLink,
     HttpClientModule,
@@ -37,6 +41,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     MenuModule,
     BadgeModule,
     InputNumberModule,
+    InputTextModule,
+    CalendarModule,
+    DropdownModule,
     AvatarModule,
   ],
   providers: [

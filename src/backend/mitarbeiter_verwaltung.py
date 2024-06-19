@@ -54,17 +54,21 @@ class MitarbeiterVerwaltung:
         """
         self.__db_service.execute_query(q)
 
-    def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, job_id: int, strasse: str, plz: str):
+    def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, angestelltSeit: str, job_id: int, strasse: str, plz: str):
         max_id: int | None = self.__db_service.get_current_highest_id("Mitarbeiter", "Id")
+        id: int = max_id if max_id is not None else 0
+
         max_adresse_id: int | None = self.__db_service.get_current_highest_id("Adresse", "Id")
+        adresse_id: int = max_adresse_id if max_adresse_id is not None else 0
+
         q = f"""
         INSERT INTO Adresse (Id, Strasse, Plz)
-        VALUES ({str(max_adresse_id + 1)}, '{strasse}', '{plz}')
+        VALUES ({str(adresse_id + 1)}, '{strasse}', '{plz}')
         """
         self.__db_service.execute_query(q)
         q = f"""
-        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, JobId, AdresseId)
-        VALUES ({str(max_id + 1)}, '{vorname}', '{nachname}', '{geburtsdatum}', {str(job_id)}, {str(max_adresse_id + 1)})
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId)
+        VALUES ({str(id + 1)}, '{vorname}', '{nachname}', '{geburtsdatum}', {str(job_id)}, {str(max_adresse_id + 1)})
         """
         self.__db_service.execute_query(q)
 
@@ -80,4 +84,23 @@ class MitarbeiterVerwaltung:
         """
         res = self.__db_service.execute_query(q)
         return res.fetchall()[0][0]
+    
+    def get_all_jobs(self) -> list:
+        q = """
+        SELECT * FROM Job
+        """
+        new_cur = self.__db_service.execute_query(q)
+        res_list = new_cur.fetchall()
+        self.__logger.LogDebug("Query Response: " + str(res_list))
+        return res_list
+    
+    def add_job(self, titel: str) -> None:
+        max_id: int | None = self.__db_service.get_current_highest_id("Job", "Id")
+
+        id: int = max_id if max_id is not None else 0
+        q = f"""
+        INSERT INTO Job (Id, Titel)
+        VALUES ({str(id + 1)}, '{titel}')
+        """
+        self.__db_service.execute_query(q)
         
