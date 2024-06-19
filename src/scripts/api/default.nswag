@@ -1,16 +1,16 @@
 {
-  "runtime": "Net60",
+  "runtime": "WinX64",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "http://redocly.github.io/redoc/openapi.yaml",
+      "url": "http://localhost:8000/openapi.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
   },
   "codeGenerators": {
     "openApiToTypeScriptClient": {
-      "className": "{controller}Client",
+      "className": "{controller}MVApiClient",
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 4.3,
@@ -39,10 +39,10 @@
       "useTransformOptionsMethod": false,
       "useTransformResultMethod": false,
       "generateDtoTypes": true,
-      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "operationGenerationMode": "MultipleClientsFromPathSegments",
       "markOptionalProperties": true,
       "generateCloneMethod": false,
-      "typeStyle": "KnockoutClass",
+      "typeStyle": "Class",
       "enumStyle": "Enum",
       "useLeafType": false,
       "classTypes": [],
@@ -66,7 +66,7 @@
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": null,
+      "output": "../../frontend/MitarbeiterVerwaltung/src/app/services/api.ts",
       "newLineBehavior": "Auto"
     }
   }

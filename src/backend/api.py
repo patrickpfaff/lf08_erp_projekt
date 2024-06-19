@@ -1,32 +1,48 @@
 from fastapi import FastAPI
-from mv_model_factory import Abteilung, create_mitarbeiter_model, create_job_model, create_adresse_model, create_abteilung_model
+from fastapi.middleware.cors import CORSMiddleware
+from mv_model_factory import Abteilung, Adresse, Job, Mitarbeiter, create_mitarbeiter_model, create_job_model, create_adresse_model, create_abteilung_model
 
 from mitarbeiter_verwaltung import MitarbeiterVerwaltung
 
 app = FastAPI()
 mv = MitarbeiterVerwaltung()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+### Test ###
+@app.get("/test/", name="test-endpoint")
+def test():
+    return {"message": "API is running"}
+
 ### Abteilungen ###
-@app.get("/get_all_abteilungen/", response_model=list[Abteilung])
+@app.get("/get_all_abteilungen/", response_model=list[Abteilung], name="get-all-abteilungen")
 def get_all_abteilungen():
     response = mv.get_all_abteilungen()
     abteilung_result = []
     for abteilung in response:
-        abteilung_result.append(create_abteilung_model(name=abteilung[1], beschreibung=abteilung[2], leiterId=abteilung[3]))
+        abteilung_result.append(create_abteilung_model(name=abteilung[1], beschreibung=abteilung[2], leiterId=abteilung[3], id=abteilung[0]))
 
     return abteilung_result
 
-@app.post("/add_abteilung/")
+@app.post("/add_abteilung/", name="add-abteilung")
 def add_abteilung(beschreibung: str, name: str, leiterId: int = None, custom_id: int = None):
     mv.add_abteilung(beschreibung, name, leiterId, custom_id)
 
-@app.delete("/delete_abteilung/")
+@app.delete("/delete_abteilung/", name="delete-abteilung")
 def delete_abteilung(id: int):
     mv.delete_abteilung(id)
 
 
 ### Mitarbeiter ###
-@app.get("/get_all_mitarbeiter/")
+@app.get("/get_all_mitarbeiter/", response_model=list[Mitarbeiter] , name="get-all-mitarbeiter")
 def get_all_mitarbeiter():
     response = mv.get_all_mitarbeiter()
     mitarbeiter_result = []
@@ -35,12 +51,12 @@ def get_all_mitarbeiter():
 
     return mitarbeiter_result
 
-@app.get("/get_mitarbeiter_by_id/")
+@app.get("/get_mitarbeiter_by_id/", response_model=Mitarbeiter, name="get-mitarbeiter-by-id")
 def get_mitarbeiter_by_id(id: int):
     response = mv.get_mitarbeiter_by_id(id)
     return create_mitarbeiter_model(nachname=response[2], vorname=response[1], geburtsdatum=response[3], angestelltseit=response[4], jobId=response[5], abteilungid=response[6])
 
-@app.get("/get_mitarbeiter_by_name/")
+@app.get("/get_mitarbeiter_by_name/", name="get-mitarbeiter-by-name", response_model=list[Mitarbeiter])
 def get_mitarbeiter_by_name(vorname: str, nachname: str):
     response = mv.get_mitarbeiter_by_name(vorname, nachname)
     mitarbeiter_result = []
@@ -49,16 +65,16 @@ def get_mitarbeiter_by_name(vorname: str, nachname: str):
 
     return mitarbeiter_result
 
-@app.post("/add_mitarbeiter/")
+@app.post("/add_mitarbeiter/", name="add-mitarbeiter")
 def add_mitarbeiter(vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int = None):
     mv.add_mitarbeiter(vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId)
 
-@app.delete("/delete_mitarbeiter/")
+@app.delete("/delete_mitarbeiter/", name="delete-mitarbeiter")
 def delete_mitarbeiter(id: int):
     mv.delete_mitarbeiter(id)
 
 ### Jobs ###
-@app.get("/get_all_jobs/")
+@app.get("/get_all_jobs/", name="get-all-jobs", response_model=list[Job])
 def get_all_jobs():
     response = mv.get_all_jobs()
     job_result = []
@@ -67,17 +83,17 @@ def get_all_jobs():
 
     return job_result
 
-@app.post("/add_job/")
+@app.post("/add_job/", name="add-job")
 def add_job(titel: str):
     mv.add_job(titel)
 
-@app.delete("/delete_job/")
+@app.delete("/delete_job/", name="delete-job")
 def delete_job(id: int):
     mv.delete_job(id)
 
 
 ### Adressen ###
-@app.get("/get_all_adressen/")
+@app.get("/get_all_adressen/", name="get-all-adressen", response_model=list[Adresse])
 def get_all_adressen():
     response = mv.get_all_adressen()
     adresse_result = []
@@ -86,11 +102,11 @@ def get_all_adressen():
 
     return adresse_result
 
-@app.post("/add_adresse/")
+@app.post("/add_adresse/", name="add-adresse")
 def add_adresse(strasse: str, hausnummer: str, zusatz: str, plz: str):
     mv.add_adresse(strasse, hausnummer, zusatz, plz)
 
-@app.delete("/delete_adresse/")
+@app.delete("/delete_adresse/", name="delete-adresse")
 def delete_adresse(id: int):
     mv.delete_adresse(id)
 
