@@ -2706,4 +2706,14 @@
         SELECT * FROM Adresse WHERE Id = 4[15:42:49] DEBUG: Query: 
         SELECT Name FROM Ort WHERE Plz = '12341'[15:42:50] DEBUG: Query: 
         SELECT * FROM Adresse WHERE Id = 5[15:42:50] DEBUG: Query: 
-        SELECT Name FROM Ort WHERE Plz = '61209'
+        SELECT Name FROM Ort WHERE Plz = '61209'[15:45:41] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 4[15:45:41] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '12341'[15:45:44] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 5[15:45:44] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[15:45:44] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 2[15:45:44] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[15:45:45] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 3[15:45:45] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '12345'[15:45:46] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 4[15:45:46] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '12341'
