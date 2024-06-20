@@ -1,6 +1,9 @@
 import sqlite3
+import threading
 from log_level import LogLevel
 from test_logger import TestLogger
+
+lock = threading.Lock()
 
 class DatabaseService:
     __cursor: sqlite3.Cursor
@@ -59,9 +62,13 @@ class DatabaseService:
         self.execute_query(q)
 
     def execute_query(self, query) -> sqlite3.Cursor:
-        self.__logger.LogDebug("Query: " + query)
-        res = self.get_cursor().execute(query)
-        self.get_connection().commit()
+        try:
+            lock.acquire(True)
+            self.__logger.LogDebug("Query: " + query)
+            res = self.get_cursor().execute(query)
+            self.get_connection().commit()
+        finally:
+            lock.release()
         return res
     
     def get_current_highest_id(self, table_name: str, id_column_name: str) -> int | None:

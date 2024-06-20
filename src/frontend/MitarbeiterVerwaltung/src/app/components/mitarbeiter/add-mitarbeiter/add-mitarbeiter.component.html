@@ -1,10 +1,13 @@
 <h2 style="margin-bottom: 30px;">Mitarbeiter hinzufügen</h2>
 
+
 <form [formGroup]="mitarbeiterForm">
+
+    <h3>Daten</h3>
 
     <!-- Vorname -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Vorname
         </div>
         <input type="text" pInputText [formControl]="mitarbeiterForm.controls.vorname" />
@@ -12,7 +15,7 @@
 
     <!-- Nachname -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Nachname
         </div>
         <input type="text" pInputText [formControl]="mitarbeiterForm.controls.nachname" />
@@ -20,7 +23,7 @@
 
     <!-- Job -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Job
         </div>
         <p-dropdown [options]="jobs" [formControl]="mitarbeiterForm.controls.job" (onShow)="onJobDropDown($event)"></p-dropdown>  
@@ -28,7 +31,7 @@
 
     <!-- Abteilung (DropDown) -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Abteilung
         </div>
         <p-dropdown [options]="departments" [formControl]="mitarbeiterForm.controls.abteilung" (onShow)="onAbteilungDropDown($event)"></p-dropdown>
@@ -36,7 +39,7 @@
 
     <!-- Geburtsdatum -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Geburtsdatum
         </div>
         <p-calendar [formControl]="mitarbeiterForm.controls.geburtsdatum" dateFormat="dd.mm.yy"></p-calendar>
@@ -44,14 +47,50 @@
 
     <!-- Angestellt seit -->
     <div class="entryDiv">
-        <div>
+        <div class="headerText">
             Angestellt seit
         </div>
         <p-calendar [formControl]="mitarbeiterForm.controls.angestelltSeit" dateFormat="dd.mm.yy"></p-calendar>
+    </div>
+
+    <h3>Adresse</h3>
+
+    <!-- Straße -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Straße
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.strasse" />
+    </div>
+
+    <!-- Hausnummer -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Hausnummer
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.hausnummer" />
+    </div>
+
+    <!-- PLZ -->
+    <div class="entryDiv">
+        <div class="headerText">
+            PLZ
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.plz" />
+    </div>
+
+    <!-- Zusatz -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Zusatz
+        </div>
+        <input type="text" pInputText [formControl]="mitarbeiterForm.controls.zusatz" />
     </div>
 
     <!-- Submit Button -->
     <div class="entryDiv">
         <button pButton type="button" label="Mitarbeiter hinzufügen" (click)="addMitarbeiter($event)"></button>
     </div>
+
+
 </form>

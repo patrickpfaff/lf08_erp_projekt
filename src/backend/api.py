@@ -47,7 +47,9 @@ def get_all_mitarbeiter():
     response = mv.get_all_mitarbeiter()
     mitarbeiter_result = []
     for mitarbeiter in response:
-        mitarbeiter_result.append(create_mitarbeiter_model(nachname=mitarbeiter[2], vorname=mitarbeiter[1], geburtsdatum=mitarbeiter[3], angestelltseit=mitarbeiter[4], jobId=mitarbeiter[5], abteilungid=mitarbeiter[6]))
+        print(mitarbeiter)
+        m_temp = create_mitarbeiter_model(nachname=mitarbeiter[2], vorname=mitarbeiter[1], geburtsdatum=mitarbeiter[3], angestelltseit=mitarbeiter[4], jobId=mitarbeiter[5], adresseId=mitarbeiter[6], abteilungid=mitarbeiter[7], id=mitarbeiter[0])
+        mitarbeiter_result.append(m_temp)
 
     return mitarbeiter_result
 
@@ -66,8 +68,8 @@ def get_mitarbeiter_by_name(vorname: str, nachname: str):
     return mitarbeiter_result
 
 @app.post("/add_mitarbeiter/", name="add-mitarbeiter")
-def add_mitarbeiter(vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int = None):
-    mv.add_mitarbeiter(vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId)
+def add_mitarbeiter(vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int, strasse: str = None, hausnummer: str = None, zusatz: str = None, plz: str = None):
+    mv.add_mitarbeiter(vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId, strasse, hausnummer, zusatz, plz)
 
 @app.delete("/delete_mitarbeiter/", name="delete-mitarbeiter")
 def delete_mitarbeiter(id: int):
@@ -79,7 +81,7 @@ def get_all_jobs():
     response = mv.get_all_jobs()
     job_result = []
     for job in response:
-        job_result.append(create_job_model(titel=job[1]))
+        job_result.append(create_job_model(id=job[0], titel=job[1]))
 
     return job_result
 
@@ -90,6 +92,15 @@ def add_job(titel: str):
 @app.delete("/delete_job/", name="delete-job")
 def delete_job(id: int):
     mv.delete_job(id)
+
+@app.get("/get_job_by_id/", name="get-job-by-id", response_model=Job)
+def get_job_by_id(id: int):
+    response = mv.get_job_by_id(id)
+    if response is not None:
+        return create_job_model(id=response[0], titel=response[1])
+    return None
+    
+    
 
 
 ### Adressen ###

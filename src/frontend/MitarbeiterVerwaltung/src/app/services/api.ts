@@ -478,10 +478,13 @@ export class MVApiClient {
 
     /**
      * Add-Mitarbeiter
-     * @param abteilungId (optional) 
+     * @param strasse (optional) 
+     * @param hausnummer (optional) 
+     * @param zusatz (optional) 
+     * @param plz (optional) 
      * @return Successful Response
      */
-    add_mitarbeiter(vorname: string, nachname: string, geburtsdatum: string, angestelltseit: string, jobId: number, abteilungId: number | undefined): Observable<any> {
+    add_mitarbeiter(vorname: string, nachname: string, geburtsdatum: string, angestelltseit: string, jobId: number, abteilungId: number, strasse: string | undefined, hausnummer: string | undefined, zusatz: string | undefined, plz: string | undefined): Observable<any> {
         let url_ = this.baseUrl + "/add_mitarbeiter/?";
         if (vorname === undefined || vorname === null)
             throw new Error("The parameter 'vorname' must be defined and cannot be null.");
@@ -503,10 +506,26 @@ export class MVApiClient {
             throw new Error("The parameter 'jobId' must be defined and cannot be null.");
         else
             url_ += "jobId=" + encodeURIComponent("" + jobId) + "&";
-        if (abteilungId === null)
-            throw new Error("The parameter 'abteilungId' cannot be null.");
-        else if (abteilungId !== undefined)
+        if (abteilungId === undefined || abteilungId === null)
+            throw new Error("The parameter 'abteilungId' must be defined and cannot be null.");
+        else
             url_ += "abteilungId=" + encodeURIComponent("" + abteilungId) + "&";
+        if (strasse === null)
+            throw new Error("The parameter 'strasse' cannot be null.");
+        else if (strasse !== undefined)
+            url_ += "strasse=" + encodeURIComponent("" + strasse) + "&";
+        if (hausnummer === null)
+            throw new Error("The parameter 'hausnummer' cannot be null.");
+        else if (hausnummer !== undefined)
+            url_ += "hausnummer=" + encodeURIComponent("" + hausnummer) + "&";
+        if (zusatz === null)
+            throw new Error("The parameter 'zusatz' cannot be null.");
+        else if (zusatz !== undefined)
+            url_ += "zusatz=" + encodeURIComponent("" + zusatz) + "&";
+        if (plz === null)
+            throw new Error("The parameter 'plz' cannot be null.");
+        else if (plz !== undefined)
+            url_ += "plz=" + encodeURIComponent("" + plz) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -813,6 +832,69 @@ export class MVApiClient {
     }
 
     /**
+     * Get-Job-By-Id
+     * @return Successful Response
+     */
+    get_job_by_id(id: number): Observable<Job> {
+        let url_ = this.baseUrl + "/get_job_by_id/?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet_job_by_id(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet_job_by_id(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Job>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Job>;
+        }));
+    }
+
+    protected processGet_job_by_id(response: HttpResponseBase): Observable<Job> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Job.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * Get-All-Adressen
      * @return Successful Response
      */
@@ -1013,6 +1095,7 @@ export class MVApiClient {
 }
 
 export class Abteilung implements IAbteilung {
+    id?: number;
     name!: string;
     beschreibung!: string;
     leiterId!: LeiterId;
@@ -1034,6 +1117,7 @@ export class Abteilung implements IAbteilung {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
+            this.id = _data["id"];
             this.name = _data["name"];
             this.beschreibung = _data["beschreibung"];
             this.leiterId = _data["leiterId"];
@@ -1053,6 +1137,7 @@ export class Abteilung implements IAbteilung {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
+        data["id"] = this.id;
         data["name"] = this.name;
         data["beschreibung"] = this.beschreibung;
         data["leiterId"] = this.leiterId;
@@ -1061,6 +1146,7 @@ export class Abteilung implements IAbteilung {
 }
 
 export interface IAbteilung {
+    id?: number;
     name: string;
     beschreibung: string;
     leiterId: LeiterId;
@@ -1069,6 +1155,7 @@ export interface IAbteilung {
 }
 
 export class Adresse implements IAdresse {
+    id?: number;
     strasse!: string;
     hausnummer!: string;
     zusatz!: string;
@@ -1091,6 +1178,7 @@ export class Adresse implements IAdresse {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
+            this.id = _data["id"];
             this.strasse = _data["strasse"];
             this.hausnummer = _data["hausnummer"];
             this.zusatz = _data["zusatz"];
@@ -1111,6 +1199,7 @@ export class Adresse implements IAdresse {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
+        data["id"] = this.id;
         data["strasse"] = this.strasse;
         data["hausnummer"] = this.hausnummer;
         data["zusatz"] = this.zusatz;
@@ -1120,6 +1209,7 @@ export class Adresse implements IAdresse {
 }
 
 export interface IAdresse {
+    id?: number;
     strasse: string;
     hausnummer: string;
     zusatz: string;
@@ -1185,6 +1275,7 @@ export interface IHTTPValidationError {
 }
 
 export class Job implements IJob {
+    id?: number;
     titel!: string;
 
     [key: string]: any;
@@ -1204,6 +1295,7 @@ export class Job implements IJob {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
+            this.id = _data["id"];
             this.titel = _data["titel"];
         }
     }
@@ -1221,24 +1313,28 @@ export class Job implements IJob {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
+        data["id"] = this.id;
         data["titel"] = this.titel;
         return data;
     }
 }
 
 export interface IJob {
+    id?: number;
     titel: string;
 
     [key: string]: any;
 }
 
 export class Mitarbeiter implements IMitarbeiter {
+    id?: number;
     nachname!: string;
     vorname!: string;
     geburtsdatum!: string;
     angestelltseit!: string;
     jobId!: number;
     abteilungId!: AbteilungId;
+    adresseId!: AdresseId;
 
     [key: string]: any;
 
@@ -1257,12 +1353,14 @@ export class Mitarbeiter implements IMitarbeiter {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
+            this.id = _data["id"];
             this.nachname = _data["nachname"];
             this.vorname = _data["vorname"];
             this.geburtsdatum = _data["geburtsdatum"];
             this.angestelltseit = _data["angestelltseit"];
             this.jobId = _data["jobId"];
             this.abteilungId = _data["abteilungId"];
+            this.adresseId = _data["adresseId"];
         }
     }
 
@@ -1279,23 +1377,27 @@ export class Mitarbeiter implements IMitarbeiter {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
+        data["id"] = this.id;
         data["nachname"] = this.nachname;
         data["vorname"] = this.vorname;
         data["geburtsdatum"] = this.geburtsdatum;
         data["angestelltseit"] = this.angestelltseit;
         data["jobId"] = this.jobId;
         data["abteilungId"] = this.abteilungId;
+        data["adresseId"] = this.adresseId;
         return data;
     }
 }
 
 export interface IMitarbeiter {
+    id?: number;
     nachname: string;
     vorname: string;
     geburtsdatum: string;
     angestelltseit: string;
     jobId: number;
     abteilungId: AbteilungId;
+    adresseId: AdresseId;
 
     [key: string]: any;
 }
@@ -1451,6 +1553,50 @@ export class AbteilungId implements IAbteilungId {
 }
 
 export interface IAbteilungId {
+
+    [key: string]: any;
+}
+
+export class AdresseId implements IAdresseId {
+
+    [key: string]: any;
+
+    constructor(data?: IAdresseId) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+        }
+    }
+
+    static fromJS(data: any): AdresseId {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdresseId();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        return data;
+    }
+}
+
+export interface IAdresseId {
 
     [key: string]: any;
 }

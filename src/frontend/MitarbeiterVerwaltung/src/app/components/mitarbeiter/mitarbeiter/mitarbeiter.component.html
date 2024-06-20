@@ -1,3 +1,25 @@
-<p>mitarbeiter works!</p>
+<div>
+    <a href="/addmitarbeiter/" class="mainText">Mitarbeiter hinzufügen</a>
+</div>
 
-<a href="/addmitarbeiter/">Mitarbeiter hinzufügen</a>
+
+<div>
+    <p-table [value]="mitarbeiter" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Job</th>
+                <th>Abteilung</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-m>
+            <tr>
+                <td>{{ m.vorname }}</td>
+                <td>{{ m.nachname }}</td>
+                <td>{{ getJobNameFromId(m.jobId) }}</td>
+                <td>{{ getAbteilungNameFromId(m.abteilungId) }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

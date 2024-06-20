@@ -1,3 +1,4 @@
+import threading
 from databaseservice import DatabaseService
 from log_level import LogLevel
 from mitarbeiter_db_setup import MitarbeiterDbSetup
@@ -54,7 +55,7 @@ class MitarbeiterVerwaltung:
         """
         self.__db_service.execute_query(q)
 
-    def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, angestelltSeit: str, job_id: int, strasse: str, plz: str):
+    def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, angestelltSeit: str, job_id: int, abteilungId: int, hausnummer: str, strasse: str, zusatz: str, plz: str):
         max_id: int | None = self.__db_service.get_current_highest_id("Mitarbeiter", "Id")
         id: int = max_id if max_id is not None else 0
 
@@ -62,13 +63,13 @@ class MitarbeiterVerwaltung:
         adresse_id: int = max_adresse_id if max_adresse_id is not None else 0
 
         q = f"""
-        INSERT INTO Adresse (Id, Strasse, Plz)
-        VALUES ({str(adresse_id + 1)}, '{strasse}', '{plz}')
+        INSERT INTO Adresse (Id, Strasse, Hausnummer, Zusatz, Plz)
+        VALUES ({str(adresse_id + 1)}, '{strasse}', '{hausnummer}', '{zusatz}', '{plz}')
         """
         self.__db_service.execute_query(q)
         q = f"""
-        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId)
-        VALUES ({str(id + 1)}, '{vorname}', '{nachname}', '{geburtsdatum}', {str(job_id)}, {str(max_adresse_id + 1)})
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId, AbteilungId)
+        VALUES ({str(id + 1)}, '{vorname}', '{nachname}', '{geburtsdatum}', '{angestelltSeit}', {job_id}, {adresse_id +1}, {abteilungId})
         """
         self.__db_service.execute_query(q)
 
@@ -103,4 +104,17 @@ class MitarbeiterVerwaltung:
         VALUES ({str(id + 1)}, '{titel}')
         """
         self.__db_service.execute_query(q)
+
+    def delete_job(self, id: int) -> None:
+        q = f"""
+        DELETE FROM Job WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
+
+    def get_job_by_id(self, id: int) -> tuple:
+        q = f"""
+        SELECT * FROM Job WHERE Id = {id}
+        """
+        res = self.__db_service.execute_query(q)
+        return res.fetchall()[0]
         

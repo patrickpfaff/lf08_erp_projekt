@@ -20,6 +20,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { Calendar, CalendarModule } from 'primeng/calendar';
+import { ToastrModule } from 'ngx-toastr';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { Calendar, CalendarModule } from 'primeng/calendar';
     InputTextModule,
     CalendarModule,
     DropdownModule,
+    TableModule,
+    ToastrModule.forRoot(),
     AvatarModule,
   ],
   providers: [
