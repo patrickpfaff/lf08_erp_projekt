@@ -121,6 +121,14 @@ def add_adresse(strasse: str, hausnummer: str, zusatz: str, plz: str):
 def delete_adresse(id: int):
     mv.delete_adresse(id)
 
+@app.get("/get_adresse_by_id/", name="get-adresse-by-id", response_model=Adresse)
+def get_adresse_by_id(id: int):
+    response = mv.get_adresse_by_id(id)
+    return create_adresse_model(id=response[0],strasse=response[2], hausnummer=response[1], zusatz=response[4], plz=response[3])
+
+@app.get("/get_ortsname_from_plz/", name="get-ortsname-from-plz", response_model=str)
+def get_ortsname_from_plz(plz: str):
+    return mv.get_ortsname_from_plz(plz)
 
 if __name__ == "__main__":
     import uvicorn

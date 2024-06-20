@@ -7,8 +7,8 @@ class Mitarbeiter(BaseModel):
     geburtsdatum: str
     angestelltseit: str
     jobId: int
-    abteilungId: int | None
-    adresseId: int | None
+    abteilungId: int
+    adresseId: int
 
 class Job(BaseModel):
     id: int = None
@@ -40,11 +40,12 @@ def create_mitarbeiter_model(nachname:str, vorname: str, geburtsdatum: str, ange
 def create_job_model(id: int, titel: str) -> Job:
     return Job(id=id, titel=titel)
 
-def create_adresse_model(strasse: str, hausnummer: str, zusatz: str, plz: str) -> Adresse:
+def create_adresse_model(strasse: str, hausnummer: str, zusatz: str, plz: str, id: int) -> Adresse:
     return Adresse(strasse=strasse,
         hausnummer=hausnummer,
         zusatz=zusatz,
-        plz=plz)
+        plz=plz,
+        id=id)
 
 def create_abteilung_model(name: str, beschreibung: str, leiterId: int | str = None, id: int = None) -> Abteilung:
     return Abteilung(name=name,

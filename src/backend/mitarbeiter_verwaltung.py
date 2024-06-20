@@ -83,8 +83,11 @@ class MitarbeiterVerwaltung:
         q = f"""
         SELECT Name FROM Ort WHERE Plz = '{plz}'
         """
-        res = self.__db_service.execute_query(q)
-        return res.fetchall()[0][0]
+        newcur = self.__db_service.execute_query(q)
+        res = newcur.fetchall()
+        if len(res) == 0:
+            return "Ort nicht gefunden"
+        return res[0][0]
     
     def get_all_jobs(self) -> list:
         q = """
@@ -114,6 +117,13 @@ class MitarbeiterVerwaltung:
     def get_job_by_id(self, id: int) -> tuple:
         q = f"""
         SELECT * FROM Job WHERE Id = {id}
+        """
+        res = self.__db_service.execute_query(q)
+        return res.fetchall()[0]
+    
+    def get_adresse_by_id(self, id: int) -> tuple:
+        q = f"""
+        SELECT * FROM Adresse WHERE Id = {id}
         """
         res = self.__db_service.execute_query(q)
         return res.fetchall()[0]

@@ -3,18 +3,31 @@
 </div>
 
 
-<div>
-    <p-table [value]="mitarbeiter" [tableStyle]="{ 'min-width': '50rem' }">
+<div style="margin-top: 20px;">
+    <p-table 
+        [value]="mitarbeiter" 
+        selectionMode="single" 
+        [(selection)]="selectedMitarbeiter"
+        (onRowSelect)="onRowSelect($event)"
+        [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Job</th>
-                <th>Abteilung</th>
+                <th pSortableColumn="vorname" style="width:20%">
+                    Vorname <p-sortIcon field="vorname" />
+                </th>
+                <th pSortableColumn="nachname" style="width:20%">
+                    Nachname <p-sortIcon field="nachname" />
+                </th>
+                <th pSortableColumn="jobId" style="width:20%">
+                    Job <p-sortIcon field="jobId" />
+                </th>
+                <th pSortableColumn="abteilungId" style="width:20%">
+                    Abteilung <p-sortIcon field="abteilungId" />
+                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-m>
-            <tr>
+            <tr [pSelectableRow]="m">
                 <td>{{ m.vorname }}</td>
                 <td>{{ m.nachname }}</td>
                 <td>{{ getJobNameFromId(m.jobId) }}</td>
@@ -22,4 +35,19 @@
             </tr>
         </ng-template>
     </p-table>
+</div>
+
+<h4 style="margin-top:50px">Mitarbeiter Info:</h4>
+<div *ngIf="selectedMitarbeiter != undefined">
+    <!-- Vorname -->
+    <div>
+        {{selectedMitarbeiter.vorname}} {{selectedMitarbeiter.nachname}}
+    </div>
+    <div>
+        {{getJobNameFromId(selectedMitarbeiter.jobId)}} - {{getAbteilungNameFromId(selectedMitarbeiter.abteilungId)}}
+    </div>
+    <div>
+        {{curAdresse?.strasse}} {{curAdresse?.hausnummer}} <br>
+        {{curAdresse?.plz}} {{curOrt}}
+    </div>
 </div>

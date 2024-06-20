@@ -1092,6 +1092,133 @@ export class MVApiClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * Get-Adresse-By-Id
+     * @return Successful Response
+     */
+    get_adresse_by_id(id: number): Observable<Adresse> {
+        let url_ = this.baseUrl + "/get_adresse_by_id/?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet_adresse_by_id(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet_adresse_by_id(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Adresse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Adresse>;
+        }));
+    }
+
+    protected processGet_adresse_by_id(response: HttpResponseBase): Observable<Adresse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Adresse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Get-Ortsname-From-Plz
+     * @return Successful Response
+     */
+    get_ortsname_from_plz(plz: string): Observable<string> {
+        let url_ = this.baseUrl + "/get_ortsname_from_plz/?";
+        if (plz === undefined || plz === null)
+            throw new Error("The parameter 'plz' must be defined and cannot be null.");
+        else
+            url_ += "plz=" + encodeURIComponent("" + plz) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet_ortsname_from_plz(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet_ortsname_from_plz(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processGet_ortsname_from_plz(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export class Abteilung implements IAbteilung {
@@ -1333,8 +1460,8 @@ export class Mitarbeiter implements IMitarbeiter {
     geburtsdatum!: string;
     angestelltseit!: string;
     jobId!: number;
-    abteilungId!: AbteilungId;
-    adresseId!: AdresseId;
+    abteilungId!: number;
+    adresseId!: number;
 
     [key: string]: any;
 
@@ -1396,8 +1523,8 @@ export interface IMitarbeiter {
     geburtsdatum: string;
     angestelltseit: string;
     jobId: number;
-    abteilungId: AbteilungId;
-    adresseId: AdresseId;
+    abteilungId: number;
+    adresseId: number;
 
     [key: string]: any;
 }
@@ -1509,94 +1636,6 @@ export class LeiterId implements ILeiterId {
 }
 
 export interface ILeiterId {
-
-    [key: string]: any;
-}
-
-export class AbteilungId implements IAbteilungId {
-
-    [key: string]: any;
-
-    constructor(data?: IAbteilungId) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): AbteilungId {
-        data = typeof data === 'object' ? data : {};
-        let result = new AbteilungId();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data;
-    }
-}
-
-export interface IAbteilungId {
-
-    [key: string]: any;
-}
-
-export class AdresseId implements IAdresseId {
-
-    [key: string]: any;
-
-    constructor(data?: IAdresseId) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): AdresseId {
-        data = typeof data === 'object' ? data : {};
-        let result = new AdresseId();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data;
-    }
-}
-
-export interface IAdresseId {
 
     [key: string]: any;
 }
