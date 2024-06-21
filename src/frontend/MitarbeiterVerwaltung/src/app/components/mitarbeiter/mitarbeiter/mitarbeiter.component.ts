@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Abteilung, Adresse, Job, MVApiClient, Mitarbeiter } from '../../../services/api';
 import { TableRowSelectEvent } from 'primeng/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mitarbeiter',
@@ -9,6 +10,7 @@ import { TableRowSelectEvent } from 'primeng/table';
 })
 export class MitarbeiterComponent implements OnInit{
   private apiClient: MVApiClient;
+  private router: Router;
   public mitarbeiter: Mitarbeiter[] = [];
   public jobs: Job[] = [];
   public abteilungen: Abteilung[] = [];
@@ -16,8 +18,9 @@ export class MitarbeiterComponent implements OnInit{
   public curAdresse: Adresse | undefined;
   public curOrt: string = '';
 
-  constructor(apiClient: MVApiClient) {
+  constructor(apiClient: MVApiClient, router: Router) {
     this.apiClient = apiClient;
+    this.router = router;
   }
 
   getJobNameFromId(id: number): string {
@@ -51,6 +54,12 @@ export class MitarbeiterComponent implements OnInit{
           this.curOrt = ort;
         });
       });
+    }
+  }
+
+  onEditMitarbeiter() {
+    if (this.selectedMitarbeiter) {
+      this.router.navigate(['/mitarbeiter/edit', this.selectedMitarbeiter.id]);
     }
   }
 }

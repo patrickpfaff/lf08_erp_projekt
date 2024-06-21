@@ -1,0 +1,91 @@
+<h2 style="margin-bottom: 30px;">Mitarbeiter bearbeiten</h2>
+
+
+    <h3>Daten</h3>
+
+    <!-- Vorname -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Vorname
+        </div>
+        <input type="text" pInputText [(ngModel)]="vorname" />
+    </div>
+
+    <!-- Nachname -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Nachname
+        </div>
+        <input type="text" pInputText [(ngModel)]="nachname" />
+    </div>
+
+    <!-- Job -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Job
+        </div>
+        <p-dropdown [options]="jobs" [(ngModel)]="job" (onShow)="onJobDropDown($event)"></p-dropdown>  
+    </div>
+
+    <!-- Abteilung (DropDown) -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Abteilung
+        </div>
+        <p-dropdown [options]="abteilungen" [(ngModel)]="abteilung" (onShow)="onAbteilungDropDown($event)"></p-dropdown>
+    </div>
+
+    <!-- Geburtsdatum -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Geburtsdatum
+        </div>
+        <p-calendar [(ngModel)]="geburtsdatum" dateFormat="dd.mm.yy"></p-calendar>
+    </div>
+
+    <!-- Angestellt seit -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Angestellt seit
+        </div>
+        <p-calendar [(ngModel)]="angestelltSeit" dateFormat="dd.mm.yy"></p-calendar>
+    </div>
+
+    <h3>Adresse</h3>
+
+    <!-- Straße -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Straße
+        </div>
+        <input type="text" pInputText [(ngModel)]="strasse" />
+    </div>
+
+    <!-- Hausnummer -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Hausnummer
+        </div>
+            <input type="text" pInputText [(ngModel)]="hausnummer" />
+    </div>
+
+    <!-- PLZ -->
+    <div class="entryDiv">
+        <div class="headerText">
+            PLZ
+        </div>
+        <input type="text" pInputText [(ngModel)]="plz" />
+    </div>
+
+    <!-- Zusatz -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Zusatz
+        </div>
+        <input type="text" pInputText [(ngModel)]="zusatz" />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="entryDiv">
+        <button pButton type="button" label="Änderungen speichern" (click)="saveChanges($event)"></button>
+    </div>

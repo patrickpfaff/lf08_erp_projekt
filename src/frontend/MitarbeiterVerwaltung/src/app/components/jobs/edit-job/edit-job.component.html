@@ -1,0 +1,17 @@
+<h2 style="margin-bottom: 30px;">Job bearbeiten</h2>
+
+
+<h3>Daten</h3>
+
+<!-- Jobname -->
+<div class="entryDiv">
+    <div class="headerText">
+        Jobname
+    </div>
+    <input type="text" pInputText [(ngModel)]="jobname" />
+</div>
+
+<!-- Submit Button -->
+<div class="entryDiv">
+    <button pButton type="button" label="Änderungen speichern" (click)="saveChanges($event)"></button>
+</div>

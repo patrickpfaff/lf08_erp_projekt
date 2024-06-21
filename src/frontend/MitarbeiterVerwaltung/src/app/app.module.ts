@@ -22,13 +22,21 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Calendar, CalendarModule } from 'primeng/calendar';
 import { ToastrModule } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
+import { EditmitarbeiterComponent } from './components/mitarbeiter/editmitarbeiter/editmitarbeiter.component';
+import { JobsComponent } from './components/jobs/jobs/jobs.component';
+import { AddJobComponent } from './components/jobs/add-job/add-job.component';
+import { EditJobComponent } from './components/jobs/edit-job/edit-job.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MitarbeiterComponent,
     NavbarComponent,
-    AddMitarbeiterComponent
+    AddMitarbeiterComponent,
+    EditmitarbeiterComponent,
+    JobsComponent,
+    AddJobComponent,
+    EditJobComponent
   ],
   imports: [
     BrowserModule,

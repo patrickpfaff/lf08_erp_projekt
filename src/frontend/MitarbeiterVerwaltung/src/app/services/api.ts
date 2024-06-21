@@ -281,6 +281,69 @@ export class MVApiClient {
     }
 
     /**
+     * Get-Abteilung-By-Id
+     * @return Successful Response
+     */
+    get_abteilung_by_id(id: number): Observable<Abteilung> {
+        let url_ = this.baseUrl + "/get_abteilung_by_id/?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet_abteilung_by_id(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet_abteilung_by_id(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Abteilung>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Abteilung>;
+        }));
+    }
+
+    protected processGet_abteilung_by_id(response: HttpResponseBase): Observable<Abteilung> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Abteilung.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * Get-All-Mitarbeiter
      * @return Successful Response
      */
@@ -459,6 +522,114 @@ export class MVApiClient {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Update-Mitarbeiter
+     * @param strasse (optional) 
+     * @param hausnummer (optional) 
+     * @param zusatz (optional) 
+     * @param plz (optional) 
+     * @return Successful Response
+     */
+    update_mitarbeiter(id: number, vorname: string, nachname: string, geburtsdatum: string, angestelltseit: string, jobId: number, abteilungId: number, strasse: string | undefined, hausnummer: string | undefined, zusatz: string | undefined, plz: string | undefined): Observable<any> {
+        let url_ = this.baseUrl + "/update_mitarbeiter/?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        if (vorname === undefined || vorname === null)
+            throw new Error("The parameter 'vorname' must be defined and cannot be null.");
+        else
+            url_ += "vorname=" + encodeURIComponent("" + vorname) + "&";
+        if (nachname === undefined || nachname === null)
+            throw new Error("The parameter 'nachname' must be defined and cannot be null.");
+        else
+            url_ += "nachname=" + encodeURIComponent("" + nachname) + "&";
+        if (geburtsdatum === undefined || geburtsdatum === null)
+            throw new Error("The parameter 'geburtsdatum' must be defined and cannot be null.");
+        else
+            url_ += "geburtsdatum=" + encodeURIComponent("" + geburtsdatum) + "&";
+        if (angestelltseit === undefined || angestelltseit === null)
+            throw new Error("The parameter 'angestelltseit' must be defined and cannot be null.");
+        else
+            url_ += "angestelltseit=" + encodeURIComponent("" + angestelltseit) + "&";
+        if (jobId === undefined || jobId === null)
+            throw new Error("The parameter 'jobId' must be defined and cannot be null.");
+        else
+            url_ += "jobId=" + encodeURIComponent("" + jobId) + "&";
+        if (abteilungId === undefined || abteilungId === null)
+            throw new Error("The parameter 'abteilungId' must be defined and cannot be null.");
+        else
+            url_ += "abteilungId=" + encodeURIComponent("" + abteilungId) + "&";
+        if (strasse === null)
+            throw new Error("The parameter 'strasse' cannot be null.");
+        else if (strasse !== undefined)
+            url_ += "strasse=" + encodeURIComponent("" + strasse) + "&";
+        if (hausnummer === null)
+            throw new Error("The parameter 'hausnummer' cannot be null.");
+        else if (hausnummer !== undefined)
+            url_ += "hausnummer=" + encodeURIComponent("" + hausnummer) + "&";
+        if (zusatz === null)
+            throw new Error("The parameter 'zusatz' cannot be null.");
+        else if (zusatz !== undefined)
+            url_ += "zusatz=" + encodeURIComponent("" + zusatz) + "&";
+        if (plz === null)
+            throw new Error("The parameter 'plz' cannot be null.");
+        else if (plz !== undefined)
+            url_ += "plz=" + encodeURIComponent("" + plz) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate_mitarbeiter(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate_mitarbeiter(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<any>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<any>;
+        }));
+    }
+
+    protected processUpdate_mitarbeiter(response: HttpResponseBase): Observable<any> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
             return _observableOf(result200);
             }));
         } else if (status === 422) {

@@ -145,6 +145,7 @@ export class AddMitarbeiterComponent {
       this.mitarbeiterForm.value.zusatz
     ).subscribe(() => {
       this.toastr.success('Mitarbeiter hinzugefügt', 'Erfolg');
+      this.mitarbeiterForm.reset();
     });
   }
 }

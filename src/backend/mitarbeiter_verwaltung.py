@@ -11,6 +11,10 @@ class MitarbeiterVerwaltung:
     __db_service: DatabaseService
     __logger: TestLogger
 
+    ###
+    ### INIT ###
+    ###
+
     def __init__(self):
         self.__db_service = DatabaseService("test.db")
         self.__logger = TestLogger(LogLevel.DEBUG, "log.txt")
@@ -24,6 +28,13 @@ class MitarbeiterVerwaltung:
         setup_helper.setup_mitarbeiter_db()
         self.__logger.LogDebug("Mitarbeiter init complete.")
 
+
+
+
+    ###
+    ### ABTEILUNGEN ###
+    ###
+    
     def get_all_abteilungen(self) -> list:
         q = """
         SELECT * FROM Abteilung
@@ -33,16 +44,6 @@ class MitarbeiterVerwaltung:
         self.__logger.LogDebug("Query Response: " + str(res_list))
         return res_list
     
-    def get_all_mitarbeiter(self) -> list:
-        q = """
-        SELECT * FROM Mitarbeiter
-        """
-        new_cur = self.__db_service.execute_query(q)
-        res_list = new_cur.fetchall()
-        self.__logger.LogDebug("Query Response: " + str(res_list))
-        return res_list
-
-
     def add_abteilung(self, beschreibung: str, name: str, leiterId: str = None, custom_id: int = None) -> None:
         # Aktuell höchste Id ermitteln:
         max_id: int | None = self.__db_service.get_current_highest_id("Abteilung", "Id")
@@ -54,6 +55,22 @@ class MitarbeiterVerwaltung:
         VALUES ({str(id)}, '{name}', '{beschreibung}', '{leiter}')
         """
         self.__db_service.execute_query(q)
+
+    def get_abteilung_by_id(self, id: int) -> tuple:
+        q = f"""
+        SELECT * FROM Abteilung WHERE Id = {id}
+        """
+        cur = self.__db_service.execute_query(q)
+        res = cur.fetchall()
+        if len(res) == 0:
+            return None
+        return res[0]
+
+
+
+    ###
+    ### MITARBEITER ###
+    ###
 
     def add_mitarbeiter(self, vorname: str, nachname: str, geburtsdatum: str, angestelltSeit: str, job_id: int, abteilungId: int, hausnummer: str, strasse: str, zusatz: str, plz: str):
         max_id: int | None = self.__db_service.get_current_highest_id("Mitarbeiter", "Id")
@@ -79,15 +96,79 @@ class MitarbeiterVerwaltung:
         """
         self.__db_service.execute_query(q)
 
-    def get_ortsname_from_plz(self, plz: str) -> str:
+    def get_mitarbeiter_by_id(self, id: int) -> tuple:
         q = f"""
-        SELECT Name FROM Ort WHERE Plz = '{plz}'
+        SELECT * FROM Mitarbeiter WHERE Id = {id}
         """
-        newcur = self.__db_service.execute_query(q)
-        res = newcur.fetchall()
+        cur = self.__db_service.execute_query(q)
+        res = cur.fetchall()
         if len(res) == 0:
-            return "Ort nicht gefunden"
-        return res[0][0]
+            return None
+        return res[0]
+    
+    def get_all_mitarbeiter(self) -> list:
+        q = """
+        SELECT * FROM Mitarbeiter
+        """
+        new_cur = self.__db_service.execute_query(q)
+        res_list = new_cur.fetchall()
+        self.__logger.LogDebug("Query Response: " + str(res_list))
+        return res_list
+    
+    def update_mitarbeiter(
+        self,
+        id: int,
+        vorname: str,
+        nachname: str,
+        geburtsdatum: str,
+        angestelltseit: str,
+        jobId: int,
+        abteilungId :int,
+        strasse: str,
+        hausnummer: str,
+        zusatz: str,
+        plz: str):
+    
+        # get mitarbeiter
+        m_q: str = f"""
+        SELECT * FROM Mitarbeiter WHERE Id = {id}
+        """
+        m_cur = self.__db_service.execute_query(m_q)
+        m_res = m_cur.fetchall()
+        if len(m_res) == 0:
+            return None
+        m = m_res[0]
+
+        # get current adresse
+        a_q: str = f"""
+        SELECT * FROM Adresse WHERE Id = {m[6]}
+        """
+        a_cur = self.__db_service.execute_query(a_q)
+        a_res = a_cur.fetchall()
+        if len(a_res) == 0:
+            return None
+        a = a_res[0]
+
+        # compare current adresse with new adresse
+        if a[1] != strasse or a[2] != hausnummer or a[3] != zusatz or a[4] != plz:
+            # update adresse
+            q = f"""
+            UPDATE Adresse SET Strasse = '{strasse}', Hausnummer = '{hausnummer}', Zusatz = '{zusatz}', Plz = '{plz}' WHERE Id = {m[6]}
+            """
+            self.__db_service.execute_query(q)
+
+        # update mitarbeiter
+        q = f"""
+        UPDATE Mitarbeiter SET Vorname = '{vorname}', Nachname = '{nachname}', Geburtsdatum = '{geburtsdatum}', AngestelltSeit = '{angestelltseit}', JobId = {jobId}, AbteilungId = {abteilungId} WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
+
+
+
+
+    ###
+    ### JOBS ###
+    ###
     
     def get_all_jobs(self) -> list:
         q = """
@@ -118,13 +199,36 @@ class MitarbeiterVerwaltung:
         q = f"""
         SELECT * FROM Job WHERE Id = {id}
         """
-        res = self.__db_service.execute_query(q)
-        return res.fetchall()[0]
+        cur = self.__db_service.execute_query(q)
+        res = cur.fetchall()
+        if len(res) == 0:
+            return None
+        return res[0]
     
-    def get_adresse_by_id(self, id: int) -> tuple:
+
+
+    ###
+    ### ADRESSEN ###
+    ###
+
+    def get_ortsname_from_plz(self, plz: str) -> str:
+        q = f"""
+        SELECT Name FROM Ort WHERE Plz = '{plz}'
+        """
+        newcur = self.__db_service.execute_query(q)
+        res = newcur.fetchall()
+        if len(res) == 0:
+            return "Ort nicht gefunden"
+        return res[0][0]
+
+    
+    def get_adresse_by_id(self, id: int) -> tuple | None:
         q = f"""
         SELECT * FROM Adresse WHERE Id = {id}
         """
-        res = self.__db_service.execute_query(q)
-        return res.fetchall()[0]
+        cur = self.__db_service.execute_query(q)
+        res = cur.fetchall()
+        if len(res) == 0:
+            return None
+        return res[0]
         

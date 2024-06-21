@@ -40,6 +40,12 @@ def add_abteilung(beschreibung: str, name: str, leiterId: int = None, custom_id:
 def delete_abteilung(id: int):
     mv.delete_abteilung(id)
 
+@app.get("/get_abteilung_by_id/", name="get-abteilung-by-id", response_model=Abteilung)
+def get_abteilung_by_id(id: int):
+    response = mv.get_abteilung_by_id(id)
+    return create_abteilung_model(name=response[1], beschreibung=response[2], leiterId=response[3], id=response[0])
+
+
 
 ### Mitarbeiter ###
 @app.get("/get_all_mitarbeiter/", response_model=list[Mitarbeiter] , name="get-all-mitarbeiter")
@@ -56,7 +62,7 @@ def get_all_mitarbeiter():
 @app.get("/get_mitarbeiter_by_id/", response_model=Mitarbeiter, name="get-mitarbeiter-by-id")
 def get_mitarbeiter_by_id(id: int):
     response = mv.get_mitarbeiter_by_id(id)
-    return create_mitarbeiter_model(nachname=response[2], vorname=response[1], geburtsdatum=response[3], angestelltseit=response[4], jobId=response[5], abteilungid=response[6])
+    return create_mitarbeiter_model(nachname=response[2], vorname=response[1], geburtsdatum=response[3], angestelltseit=response[4], jobId=response[5], abteilungid=response[7], adresseId=response[6], id=response[0])
 
 @app.get("/get_mitarbeiter_by_name/", name="get-mitarbeiter-by-name", response_model=list[Mitarbeiter])
 def get_mitarbeiter_by_name(vorname: str, nachname: str):
@@ -66,6 +72,11 @@ def get_mitarbeiter_by_name(vorname: str, nachname: str):
         mitarbeiter_result.append(create_mitarbeiter_model(nachname=mitarbeiter[2], vorname=mitarbeiter[1], geburtsdatum=mitarbeiter[3], angestelltseit=mitarbeiter[4], jobId=mitarbeiter[5], abteilungid=mitarbeiter[6]))
 
     return mitarbeiter_result
+
+@app.post("/update_mitarbeiter/", name="update-mitarbeiter")
+def update_mitarbeiter(id: int, vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int, strasse: str = None, hausnummer: str = None, zusatz: str = None, plz: str = None):
+    mv.update_mitarbeiter(id, vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId, strasse, hausnummer, zusatz, plz)
+
 
 @app.post("/add_mitarbeiter/", name="add-mitarbeiter")
 def add_mitarbeiter(vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int, strasse: str = None, hausnummer: str = None, zusatz: str = None, plz: str = None):

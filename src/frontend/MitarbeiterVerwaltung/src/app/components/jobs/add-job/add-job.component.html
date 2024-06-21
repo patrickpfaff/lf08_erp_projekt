@@ -1,0 +1,22 @@
+<h2 style="margin-bottom: 30px;">Job hinzufügen</h2>
+
+
+<form [formGroup]="addJobForm">
+
+    <h3>Daten</h3>
+
+    <!-- Vorname -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Jobname
+        </div>
+        <input type="text" pInputText [formControl]="addJobForm.controls.jobname" />
+    </div>
+
+    
+    <!-- Submit Button -->
+    <div class="entryDiv">
+        <button pButton type="button" label="Mitarbeiter hinzufügen" (click)="addJob($event)"></button>
+    </div>
+
+</form>

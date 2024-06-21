@@ -129,6 +129,7 @@ class MitarbeiterDbSetup:
         if not skip_log:
             self.__logger.LogDebug("Query: " + query)
         self.__cur.execute(query)
+        self.__con.commit()
             
 
 

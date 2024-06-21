@@ -20,8 +20,8 @@ export class NavbarComponent {
         url: 'mitarbeiter'
       },
       {
-        label: 'Mitarbeiter hinzufügen',
-        url: 'addmitarbeiter'
+        label: 'Jobs',
+        url: 'jobs'
       }
     ];
   }

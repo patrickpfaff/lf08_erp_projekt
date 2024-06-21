@@ -1,0 +1,28 @@
+<div>
+    <a href="/addjob/" class="mainText">Job hinzufügen</a>
+</div>
+
+
+<div style="margin-top: 20px;">
+    <p-table 
+        [value]="jobs_models" 
+        selectionMode="single" 
+        [(selection)]="selectedJob"
+        (onRowSelect)="onRowSelect($event)"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="jobname" style="width:20%">
+                    Jobname <p-sortIcon field="jobname" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-m>
+            <tr [pSelectableRow]="m">
+                <td>{{ m.titel }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<input pButton type="button" value="Bearbeiten" (click)="onEditJob()" *ngIf="selectedJob != undefined" style="margin-top: 20px">
