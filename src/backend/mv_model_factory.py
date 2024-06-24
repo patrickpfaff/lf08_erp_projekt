@@ -49,7 +49,7 @@ def create_adresse_model(strasse: str, hausnummer: str, zusatz: str, plz: str, i
     return temp
 
 def create_abteilung_model(name: str, beschreibung: str, leiterId: int = None, id: int = None) -> Abteilung:
-    if leiterId == None:
+    if leiterId == None or leiterId == "NULL":
         temp = Abteilung(name=name, beschreibung=beschreibung, id=id)
     else:
         temp = Abteilung(name=name,

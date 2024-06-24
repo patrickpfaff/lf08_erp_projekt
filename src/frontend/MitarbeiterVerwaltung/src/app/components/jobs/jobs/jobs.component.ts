@@ -29,4 +29,14 @@ export class JobsComponent implements OnInit{
 
   onRowSelect($event: TableRowSelectEvent) {
   }
+
+  onDeleteJob() {
+    if (this.selectedJob && this.selectedJob.id) {
+      this.apiClient.delete_job(this.selectedJob.id).subscribe(() => {
+        this.apiClient.get_all_jobs().subscribe(jobs => {
+          this.jobs_models = jobs;
+        });
+      });
+    }
+  }
 }

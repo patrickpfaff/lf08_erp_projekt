@@ -219,6 +219,12 @@ class MitarbeiterVerwaltung:
             return None
         return res[0]
     
+    def update_job(self, id: int, titel: str) -> None:
+        q = f"""
+        UPDATE Job SET Titel = '{titel}' WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
+    
 
 
     ###

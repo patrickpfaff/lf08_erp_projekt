@@ -17,10 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-### Test ###
-@app.get("/test/", name="test-endpoint", tags=["test"])
-def test():
-    return {"message": "API is running"}
+# ### Test ###
+# @app.get("/test/", name="test-endpoint", tags=["test"])
+# def test():
+#     return {"message": "API is running"}
 
 ### Abteilungen ###
 @app.get("/get_all_abteilungen/", response_model=list[Abteilung], name="get-all-abteilungen", tags=["abteilungen"])
@@ -28,7 +28,7 @@ def get_all_abteilungen():
     response = mv.get_all_abteilungen()
     abteilung_result = []
     for abteilung in response:
-        abteilung_result.append(create_abteilung_model(name=abteilung[1], beschreibung=abteilung[2], leiterId=abteilung[3], id=abteilung[0]))
+        abteilung_result.append(create_abteilung_model(name=abteilung[2], beschreibung=abteilung[1], leiterId=abteilung[3], id=abteilung[0]))
 
     return abteilung_result
 
@@ -83,7 +83,7 @@ def update_mitarbeiter(id: int, vorname: str, nachname: str, geburtsdatum: str, 
 
 @app.post("/add_mitarbeiter/", name="add-mitarbeiter", tags=["mitarbeiter"])
 def add_mitarbeiter(vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int, strasse: str = None, hausnummer: str = None, zusatz: str = None, plz: str = None):
-    mv.add_mitarbeiter(vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId, strasse, hausnummer, zusatz, plz)
+    mv.add_mitarbeiter(vorname=vorname, nachname=nachname, geburtsdatum=geburtsdatum, angestelltSeit=angestelltseit, job_id=jobId, abteilungId=abteilungId, strasse=strasse, hausnummer=hausnummer, zusatz=zusatz, plz=plz)
 
 @app.delete("/delete_mitarbeiter/", name="delete-mitarbeiter", tags=["mitarbeiter"])
 def delete_mitarbeiter(id: int):
@@ -113,6 +113,11 @@ def get_job_by_id(id: int):
     if response is not None:
         return create_job_model(id=response[0], titel=response[1])
     return None
+
+@app.post("/update_job/", name="update-job", tags=["jobs"])
+def update_job(id: int, titel: str):
+    mv.update_job(id, titel)
+    
     
     
 
@@ -138,7 +143,7 @@ def delete_adresse(id: int):
 @app.get("/get_adresse_by_id/", name="get-adresse-by-id", response_model=Adresse, tags=["adressen"])
 def get_adresse_by_id(id: int):
     response = mv.get_adresse_by_id(id)
-    return create_adresse_model(id=response[0],strasse=response[1], hausnummer=response[2], zusatz=response[3], plz=response[4])
+    return create_adresse_model(id=response[0],strasse=response[1], hausnummer=response[2], zusatz=response[4], plz=response[3])
 
 @app.get("/get_ortsname_from_plz/", name="get-ortsname-from-plz", response_model=str, tags=["adressen"])
 def get_ortsname_from_plz(plz: str):

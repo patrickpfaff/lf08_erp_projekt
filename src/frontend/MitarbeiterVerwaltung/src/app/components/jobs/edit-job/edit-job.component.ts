@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Job, MVApiClient } from '../../../services/api';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-job',
@@ -10,25 +11,33 @@ import { ActivatedRoute } from '@angular/router';
 export class EditJobComponent implements OnInit{
   jobname?: string;
   job?: Job;
-
-  constructor(private apiClient: MVApiClient, private route: ActivatedRoute) {}
+  jobId: number | undefined;
+  constructor(private apiClient: MVApiClient, private route: ActivatedRoute, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       let jobId = Number(params.get('id'));
+      this.jobId = jobId;
       this.apiClient.get_job_by_id(jobId).subscribe(job => {
         this.job = job
+
+        this.jobname = job.titel;
       });
-      this.jobname = this.job!.titel!;
     });
   }
 
   saveChanges($event: MouseEvent) {
-    // if (this.job) {
-    //   this.apiClient.update_job(this.job).subscribe(() => {
-    //     console.log('Job updated');
-    //   });
-    // }
+    if (this.jobname == "" || this.jobname == undefined) {
+      this.toastr.error('Jobname darf nicht leer sein');
+      return;
+    }
+
+    if (this.job && this.jobId) {
+      this.apiClient.update_job(this.jobId, this.jobname).subscribe(() => {
+        console.log('Job updated');
+        this.toastr.success('Job erfolgreich aktualisiert');
+      });
+    }
   }
 
 }

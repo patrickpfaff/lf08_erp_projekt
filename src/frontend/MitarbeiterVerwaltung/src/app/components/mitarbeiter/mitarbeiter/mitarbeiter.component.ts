@@ -62,4 +62,14 @@ export class MitarbeiterComponent implements OnInit{
       this.router.navigate(['/mitarbeiter/edit', this.selectedMitarbeiter.id]);
     }
   }
+
+  onDeleteMitarbeiter() {
+    if (this.selectedMitarbeiter && this.selectedMitarbeiter.id) {
+      this.apiClient.delete_mitarbeiter(this.selectedMitarbeiter.id).subscribe(() => {
+        this.apiClient.get_all_mitarbeiter().subscribe(mitarbeiter => {
+          this.mitarbeiter = mitarbeiter;
+        });
+      });
+    }
+  }
 }

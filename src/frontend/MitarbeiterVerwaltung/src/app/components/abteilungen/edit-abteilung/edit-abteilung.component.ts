@@ -82,8 +82,8 @@ export class EditAbteilungComponent implements OnInit {
 
   updateMitarbeiter(): void {
     this.apiClient.get_all_mitarbeiter().subscribe(mitarbeiter => {
-      this.mitarbeiter_models = mitarbeiter;
-      this.mitarbeiter = mitarbeiter.map(m => `${m.vorname} ${m.nachname}`);
+      this.mitarbeiter_models = mitarbeiter.filter(m => m.abteilungId === this.id);
+      this.mitarbeiter = mitarbeiter.filter(m => m.abteilungId === this.id).map(m => `${m.vorname} ${m.nachname}`);
       this.mitarbeiter.unshift(this.keinLeiter);
       console.log(this.mitarbeiter_models);
       console.log(this.mitarbeiter);
