@@ -3,6 +3,7 @@ import { Abteilung, MVApiClient, Mitarbeiter } from '../../../services/api';
 import { Router } from '@angular/router';
 import { TableRowSelectEvent } from 'primeng/table';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-abteilungen',
@@ -15,7 +16,7 @@ export class AbteilungenComponent implements OnInit{
   public currentLeiter: Mitarbeiter | undefined;
   public currentLeiterJob: string = '';
 
-  constructor(private apiClient: MVApiClient, private router: Router) { }
+  constructor(private apiClient: MVApiClient, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.apiClient.get_all_abteilungen().subscribe(abteilungen => {
@@ -45,7 +46,22 @@ export class AbteilungenComponent implements OnInit{
     }
   }
 
-  // getLeiterFromLeiterId(id: number): Mitarbeiter | undefined {
-  //   return this.abteilungen.find(abteilung => abteilung.leiterId === id);
-  // }
-}
+  onDeleteAbteilung() {
+    if (this.selectedAbteilung !== undefined && this.selectedAbteilung.id !== undefined) {
+      this.apiClient.delete_abteilung(this.selectedAbteilung.id).subscribe(() => {
+        this.apiClient.get_all_abteilungen().subscribe(abteilungen => {
+          this.toastr.success('Abteilung gelöscht', 'Erfolg');
+          this.abteilungen = abteilungen;
+        });
+      });
+    }
+      else {
+        this.toastr.error('Fehler beim Löschen der Abteilung', 'Fehler');
+        console.log('current id');
+        console.log(this.selectedAbteilung?.id);
+        console.log(this.selectedAbteilung);
+      }
+    
+    }
+  }
+

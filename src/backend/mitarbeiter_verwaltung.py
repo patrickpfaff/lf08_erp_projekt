@@ -74,6 +74,12 @@ class MitarbeiterVerwaltung:
         """
         self.__db_service.execute_query(q)
 
+    def delete_abteilung(self, id: int) -> None:
+        q = f"""
+        DELETE FROM Abteilung WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
+
 
 
     ###
@@ -158,7 +164,7 @@ class MitarbeiterVerwaltung:
         a = a_res[0]
 
         # compare current adresse with new adresse
-        if a[1] != strasse or a[2] != hausnummer or a[3] != zusatz or a[4] != plz:
+        if a[2] != strasse or a[1] != hausnummer or a[4] != zusatz or a[3] != plz:
             # update adresse
             q = f"""
             UPDATE Adresse SET Strasse = '{strasse}', Hausnummer = '{hausnummer}', Zusatz = '{zusatz}', Plz = '{plz}' WHERE Id = {m[6]}

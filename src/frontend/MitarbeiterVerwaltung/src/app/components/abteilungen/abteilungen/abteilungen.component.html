@@ -12,8 +12,8 @@
         [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="vorname" style="width:20%">
-                    Name <p-sortIcon field="vorname" />
+                <th pSortableColumn="name" style="width:20%">
+                    Name <p-sortIcon field="name" />
                 </th>
                 <th pSortableColumn="jobId" style="width:20%">
                     Leiter <p-sortIcon field="jobId" />
@@ -44,3 +44,5 @@
     </div>
 </div>
 <input pButton type="button" value="Bearbeiten" (click)="onEditAbteilung()" *ngIf="selectedAbteilung != undefined" style="margin-top: 20px">
+<br />
+<input pButton type="button" value="Löschen" stype="margin-left: 10px"(click)="onDeleteAbteilung()" *ngIf="selectedAbteilung != undefined" style="margin-top: 20px">

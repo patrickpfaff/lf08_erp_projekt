@@ -9,6 +9,7 @@ import { EditJobComponent } from './components/jobs/edit-job/edit-job.component'
 import { AbteilungenComponent } from './components/abteilungen/abteilungen/abteilungen.component';
 import { AddAbteilungComponent } from './components/abteilungen/add-abteilung/add-abteilung.component';
 import { EditAbteilungComponent } from './components/abteilungen/edit-abteilung/edit-abteilung.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'mitarbeiter', component:MitarbeiterComponent, pathMatch: 'full' },
@@ -19,7 +20,9 @@ const routes: Routes = [
   { path: 'jobs/edit/:id', component: EditJobComponent, pathMatch: 'full' },
   { path: 'abteilungen', component: AbteilungenComponent, pathMatch: 'full' },
   { path: 'abteilungen/add', component: AddAbteilungComponent, pathMatch: 'full' },
-  { path: 'abteilungen/edit/:id', component: EditAbteilungComponent, pathMatch: 'full'}
+  { path: 'abteilungen/edit/:id', component: EditAbteilungComponent, pathMatch: 'full'},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

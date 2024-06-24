@@ -13,7 +13,7 @@ export class NavbarComponent {
     this.items = [
       { 
         label: 'Home',
-        url: ''
+        url: 'home'
       },
       {
         label: 'Mitarbeiter',

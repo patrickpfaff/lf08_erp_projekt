@@ -30,6 +30,7 @@ import { EditJobComponent } from './components/jobs/edit-job/edit-job.component'
 import { AbteilungenComponent } from './components/abteilungen/abteilungen/abteilungen.component';
 import { AddAbteilungComponent } from './components/abteilungen/add-abteilung/add-abteilung.component';
 import { EditAbteilungComponent } from './components/abteilungen/edit-abteilung/edit-abteilung.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EditAbteilungComponent } from './components/abteilungen/edit-abteilung/
     EditJobComponent,
     AbteilungenComponent,
     AddAbteilungComponent,
-    EditAbteilungComponent
+    EditAbteilungComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
