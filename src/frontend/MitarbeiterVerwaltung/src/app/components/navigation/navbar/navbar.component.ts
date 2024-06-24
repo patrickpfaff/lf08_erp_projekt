@@ -22,6 +22,10 @@ export class NavbarComponent {
       {
         label: 'Jobs',
         url: 'jobs'
+      },
+      {
+        label: 'Abteilungen',
+        url: 'abteilungen'
       }
     ];
   }

@@ -1,0 +1,33 @@
+<h2 style="margin-bottom: 30px;">Abteilung bearbeiten</h2>
+
+
+    <h3>Daten</h3>
+
+    <!-- Name -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Name der Abteilung
+        </div>
+        <input type="text" pInputText [(ngModel)]="name" />
+    </div>
+
+    <!-- Beschreibung -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Beschreibung
+        </div>
+        <textarea type="text" pInputText [(ngModel)]="beschreibung"> </textarea>
+    </div>
+
+    <!-- Abteilungsleiter -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Abteilungsleiter
+        </div>
+        <p-dropdown [options]="mitarbeiter" [(ngModel)]="leiter" (onShow)="onLeiterDropDown($event)"></p-dropdown>  
+    </div>
+
+    <!-- Submit Button -->
+    <div class="entryDiv">
+        <button pButton type="button" label="Änderungen speichern" (click)="saveChanges($event)"></button>
+    </div>

@@ -12,6 +12,7 @@ import { AddMitarbeiterComponent } from './components/mitarbeiter/add-mitarbeite
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 import { RouterLink } from '@angular/router';
@@ -26,6 +27,9 @@ import { EditmitarbeiterComponent } from './components/mitarbeiter/editmitarbeit
 import { JobsComponent } from './components/jobs/jobs/jobs.component';
 import { AddJobComponent } from './components/jobs/add-job/add-job.component';
 import { EditJobComponent } from './components/jobs/edit-job/edit-job.component';
+import { AbteilungenComponent } from './components/abteilungen/abteilungen/abteilungen.component';
+import { AddAbteilungComponent } from './components/abteilungen/add-abteilung/add-abteilung.component';
+import { EditAbteilungComponent } from './components/abteilungen/edit-abteilung/edit-abteilung.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import { EditJobComponent } from './components/jobs/edit-job/edit-job.component'
     EditmitarbeiterComponent,
     JobsComponent,
     AddJobComponent,
-    EditJobComponent
+    EditJobComponent,
+    AbteilungenComponent,
+    AddAbteilungComponent,
+    EditAbteilungComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,7 @@ import { EditJobComponent } from './components/jobs/edit-job/edit-job.component'
     MenubarModule,
     MenuModule,
     BadgeModule,
+    InputTextareaModule,
     InputNumberModule,
     InputTextModule,
     CalendarModule,

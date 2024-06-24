@@ -25,7 +25,7 @@ class Abteilung(BaseModel):
     id: int = None
     name: str
     beschreibung: str
-    leiterId: int | str
+    leiterId: int = None
 
 def create_mitarbeiter_model(nachname:str, vorname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungid: int, adresseId: int, id: int = None) -> Mitarbeiter:
     return Mitarbeiter(nachname=nachname,
@@ -47,8 +47,12 @@ def create_adresse_model(strasse: str, hausnummer: str, zusatz: str, plz: str, i
         plz=plz,
         id=id)
 
-def create_abteilung_model(name: str, beschreibung: str, leiterId: int | str = None, id: int = None) -> Abteilung:
-    return Abteilung(name=name,
-        beschreibung=beschreibung,
-        leiterId=leiterId,
-        id=id)
+def create_abteilung_model(name: str, beschreibung: str, leiterId: int = None, id: int = None) -> Abteilung:
+    if leiterId == None:
+        temp = Abteilung(name=name, beschreibung=beschreibung, id=id)
+    else:
+        temp = Abteilung(name=name,
+            beschreibung=beschreibung,
+            leiterId=leiterId,
+            id=id)
+    return temp

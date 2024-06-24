@@ -47,12 +47,13 @@ class MitarbeiterVerwaltung:
     def add_abteilung(self, beschreibung: str, name: str, leiterId: str = None, custom_id: int = None) -> None:
         # Aktuell höchste Id ermitteln:
         max_id: int | None = self.__db_service.get_current_highest_id("Abteilung", "Id")
-        leiter: str = leiterId if leiterId is not None else "NULL"
+        leiter: str = leiterId if leiterId is not None else None
+        leiter_id_sql: str = f"'{leiter}'" if leiter is not None else "NULL"
 
-        id: int = custom_id if custom_id is not None else max_id if max_id is not None else 0
+        id: int = custom_id if custom_id is not None else max_id + 1 if max_id is not None else 0
         q = f"""
         INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
-        VALUES ({str(id)}, '{name}', '{beschreibung}', '{leiter}')
+        VALUES ({str(id)}, '{name}', '{beschreibung}', {leiter_id_sql})
         """
         self.__db_service.execute_query(q)
 
@@ -65,6 +66,13 @@ class MitarbeiterVerwaltung:
         if len(res) == 0:
             return None
         return res[0]
+    
+    def update_abteilung(self, id: int, beschreibung: str, name: str, leiterId: str = None) -> None:
+        leiter_id_sql: str = f"'{leiterId}'" if leiterId is not None else "NULL"
+        q = f"""
+        UPDATE Abteilung SET Name = '{name}', Beschreibung = '{beschreibung}', LeiterId = {leiter_id_sql} WHERE Id = {id}
+        """
+        self.__db_service.execute_query(q)
 
 
 

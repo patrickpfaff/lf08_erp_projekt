@@ -1,0 +1,39 @@
+<h2 style="margin-bottom: 30px;">Abteilung hinzufügen</h2>
+
+
+<form [formGroup]="abteilungForm">
+
+    <h3>Daten</h3>
+
+    <!-- Vorname -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Name der Abteilung
+        </div>
+        <input type="text" pInputText [formControl]="abteilungForm.controls.name" />
+    </div>
+
+    <!-- Nachname -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Beschreibung
+        </div>
+        <textarea type="text" pInputText [formControl]="abteilungForm.controls.beschreibung"></textarea>
+    </div>
+
+    <!-- Leiter -->
+    <div class="entryDiv">
+        <div class="headerText">
+            Abteilungsleiter
+        </div>
+        <p-dropdown [options]="mitarbeiter" [formControl]="abteilungForm.controls.leiter" (onShow)="onAbteilungenDropDown($event)"></p-dropdown>  
+    </div>
+
+
+    <!-- Submit Button -->
+    <div class="entryDiv">
+        <button pButton type="button" label="Mitarbeiter hinzufügen" (click)="addAbteilung()"></button>
+    </div>
+
+
+</form>

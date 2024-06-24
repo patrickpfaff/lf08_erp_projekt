@@ -1,0 +1,46 @@
+<div>
+    <a href="/abteilungen/add/" class="mainText">Abteilung hinzufügen</a>
+</div>
+
+
+<div style="margin-top: 20px;">
+    <p-table 
+        [value]="abteilungen" 
+        selectionMode="single" 
+        [(selection)]="selectedAbteilung"
+        (onRowSelect)="onRowSelect($event)"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="vorname" style="width:20%">
+                    Name <p-sortIcon field="vorname" />
+                </th>
+                <th pSortableColumn="jobId" style="width:20%">
+                    Leiter <p-sortIcon field="jobId" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-m>
+            <tr [pSelectableRow]="m">
+                <td>{{ m.name }}</td>
+                <td>{{ currentLeiter?.vorname }} {{ currentLeiter?.nachname }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<h4 style="margin-top:50px">Abteilung Info:</h4>
+<div *ngIf="selectedAbteilung != undefined">
+    <!-- name -->
+    <div>
+        {{selectedAbteilung.name}}
+    </div>
+    <div>
+        {{selectedAbteilung.beschreibung}}
+    </div>
+    <div>
+        {{currentLeiter?.vorname}} {{currentLeiter?.nachname}} <br>
+        {{currentLeiterJob}}
+    </div>
+</div>
+<input pButton type="button" value="Bearbeiten" (click)="onEditAbteilung()" *ngIf="selectedAbteilung != undefined" style="margin-top: 20px">

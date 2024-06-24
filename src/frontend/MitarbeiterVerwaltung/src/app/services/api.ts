@@ -344,6 +344,83 @@ export class MVApiClient {
     }
 
     /**
+     * Update-Abteilung
+     * @param leiterId (optional) 
+     * @return Successful Response
+     */
+    update_abteilung(id: number, beschreibung: string, name: string, leiterId: number | undefined): Observable<any> {
+        let url_ = this.baseUrl + "/update_abteilung/?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        if (beschreibung === undefined || beschreibung === null)
+            throw new Error("The parameter 'beschreibung' must be defined and cannot be null.");
+        else
+            url_ += "beschreibung=" + encodeURIComponent("" + beschreibung) + "&";
+        if (name === undefined || name === null)
+            throw new Error("The parameter 'name' must be defined and cannot be null.");
+        else
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (leiterId === null)
+            throw new Error("The parameter 'leiterId' cannot be null.");
+        else if (leiterId !== undefined)
+            url_ += "leiterId=" + encodeURIComponent("" + leiterId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate_abteilung(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate_abteilung(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<any>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<any>;
+        }));
+    }
+
+    protected processUpdate_abteilung(response: HttpResponseBase): Observable<any> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status === 422) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * Get-All-Mitarbeiter
      * @return Successful Response
      */
@@ -1396,7 +1473,7 @@ export class Abteilung implements IAbteilung {
     id?: number;
     name!: string;
     beschreibung!: string;
-    leiterId!: LeiterId;
+    leiterId?: number;
 
     [key: string]: any;
 
@@ -1447,7 +1524,7 @@ export interface IAbteilung {
     id?: number;
     name: string;
     beschreibung: string;
-    leiterId: LeiterId;
+    leiterId?: number;
 
     [key: string]: any;
 }
@@ -1763,50 +1840,6 @@ export interface IValidationError {
     loc: Loc[];
     msg: string;
     type: string;
-
-    [key: string]: any;
-}
-
-export class LeiterId implements ILeiterId {
-
-    [key: string]: any;
-
-    constructor(data?: ILeiterId) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): LeiterId {
-        data = typeof data === 'object' ? data : {};
-        let result = new LeiterId();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data;
-    }
-}
-
-export interface ILeiterId {
 
     [key: string]: any;
 }

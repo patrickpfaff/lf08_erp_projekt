@@ -1,2 +1,2 @@
-cd .\nswag\Net80
-.\dotnet-nswag.exe run ..\..\default.nswag
+cd .\nswag\Win
+.\nswag.exe run ..\..\default.nswag

@@ -45,6 +45,9 @@ def get_abteilung_by_id(id: int):
     response = mv.get_abteilung_by_id(id)
     return create_abteilung_model(name=response[1], beschreibung=response[2], leiterId=response[3], id=response[0])
 
+@app.post("/update_abteilung/", name="update-abteilung")
+def update_abteilung(id: int, beschreibung: str, name: str, leiterId: int = None):
+    mv.update_abteilung(id, beschreibung, name, leiterId)
 
 
 ### Mitarbeiter ###
