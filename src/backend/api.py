@@ -78,7 +78,7 @@ def get_mitarbeiter_by_name(vorname: str, nachname: str):
 
 @app.post("/update_mitarbeiter/", name="update-mitarbeiter", tags=["mitarbeiter"])
 def update_mitarbeiter(id: int, vorname: str, nachname: str, geburtsdatum: str, angestelltseit: str, jobId: int, abteilungId: int, strasse: str = None, hausnummer: str = None, zusatz: str = None, plz: str = None):
-    mv.update_mitarbeiter(id, vorname, nachname, geburtsdatum, angestelltseit, jobId, abteilungId, strasse, hausnummer, zusatz, plz)
+    mv.update_mitarbeiter(id=id, vorname=vorname, nachname=nachname, geburtsdatum=geburtsdatum, angestelltseit=angestelltseit, jobId=jobId, abteilungId=abteilungId, strasse=strasse, hausnummer=hausnummer, zusatz=zusatz, plz=plz)
 
 
 @app.post("/add_mitarbeiter/", name="add-mitarbeiter", tags=["mitarbeiter"])
@@ -119,9 +119,6 @@ def update_job(id: int, titel: str):
     mv.update_job(id, titel)
     
     
-    
-
-
 ### Adressen ###
 @app.get("/get_all_adressen/", name="get-all-adressen", response_model=list[Adresse], tags=["adressen"])
 def get_all_adressen():

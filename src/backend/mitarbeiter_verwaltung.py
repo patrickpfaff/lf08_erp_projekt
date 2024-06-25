@@ -164,7 +164,7 @@ class MitarbeiterVerwaltung:
         a = a_res[0]
 
         # compare current adresse with new adresse
-        if a[2] != strasse or a[1] != hausnummer or a[4] != zusatz or a[3] != plz:
+        if a[1] != strasse or a[2] != hausnummer or a[4] != zusatz or a[3] != plz:
             # update adresse
             q = f"""
             UPDATE Adresse SET Strasse = '{strasse}', Hausnummer = '{hausnummer}', Zusatz = '{zusatz}', Plz = '{plz}' WHERE Id = {m[6]}

@@ -14290,4 +14290,574 @@
         SELECT * FROM Job[18:36:35] DEBUG: Query Response: [(1, 'Max', 'Mustermann', 'Mon Jun 24 2024 18:34:34 GMT+0200 (Mitteleurop‰ische Sommerzeit)', 'Mon Jun 24 2024 18:34:34 GMT+0200 (Mitteleurop‰ische Sommerzeit)', 1, 1, 0)][18:36:35] DEBUG: Query Response: [(1, 'Test123')][18:36:35] DEBUG: Query: 
         SELECT * FROM Abteilung[18:36:35] DEBUG: Query Response: [(0, 'Die krasse IT Abteilung', 'IT', 1)][18:36:35] DEBUG: Query: 
         SELECT * FROM Adresse WHERE Id = 1[18:36:35] DEBUG: Query: 
-        SELECT Name FROM Ort WHERE Plz = '61209'
+        SELECT Name FROM Ort WHERE Plz = '61209'[07:50:36] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[07:50:36] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[07:50:36] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[07:50:36] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[07:50:36] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[07:50:36] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[07:50:36] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[07:50:36] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[07:50:37] DEBUG: Mitarbeiter init complete.[07:51:29] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:51:29] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 0)][07:51:29] DEBUG: Query: 
+        SELECT * FROM Job[07:51:29] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:51:29] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:51:29] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:52:03] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:52:03] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 0)][07:52:03] DEBUG: Query: 
+        SELECT * FROM Job[07:52:03] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:52:03] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:52:03] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:18] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[07:53:18] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '-'[07:53:24] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:53:24] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 0)][07:53:24] DEBUG: Query: 
+        SELECT * FROM Job[07:53:24] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:53:24] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:24] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:25] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[07:53:25] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '-'[07:53:26] DEBUG: Query: 
+        SELECT * FROM Job[07:53:26] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:26] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:53:26] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[07:53:26] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:26] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[07:53:26] DEBUG: Query: 
+        SELECT * FROM Abteilung WHERE Id = 0[07:53:26] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[07:53:29] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:29] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:33] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[07:53:33] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[07:53:33] DEBUG: Query: 
+            UPDATE Adresse SET Strasse = 'Teststraﬂe', Hausnummer = '12', Zusatz = '60306', Plz = '-' WHERE Id = 1[07:53:33] DEBUG: Query: 
+        UPDATE Mitarbeiter SET Vorname = 'Patrick', Nachname = 'Pfaff', Geburtsdatum = 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', AngestelltSeit = 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', JobId = 1, AbteilungId = 1 WHERE Id = 1[07:53:36] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:53:36] DEBUG: Query: 
+        SELECT * FROM Job[07:53:36] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 1)][07:53:36] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:53:36] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:36] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:40] DEBUG: Query: 
+        SELECT * FROM Job[07:53:40] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:53:41] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:41] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'Sanit‰r', 'test12354', None)][07:53:44] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:53:44] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 1)][07:53:44] DEBUG: Query: 
+        SELECT * FROM Abteilung WHERE Id = 1[07:53:47] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:53:47] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 1)][07:53:50] DEBUG: Query: 
+        UPDATE Abteilung SET Name = 'test12354', Beschreibung = 'Sanit‰r', LeiterId = '1' WHERE Id = 1[07:53:53] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:53:53] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'test12354', 'Sanit‰r', 1)][07:53:54] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[07:53:54] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[07:54:13] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:54:13] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 'Mon Jun 24 2024 13:52:20 GMT+0200 (Central European Summer Time)', 1, 1, 1)][07:54:13] DEBUG: Query: 
+        SELECT * FROM Job[07:54:13] DEBUG: Query Response: [(1, 'Anwendungsentwickler')][07:54:13] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:54:13] DEBUG: Query Response: [(0, 'It', 'test123', 1), (1, 'test12354', 'Sanit‰r', 1)][07:54:14] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[07:54:14] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '60306'[07:55:46] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[07:55:46] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[07:55:46] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[07:55:46] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[07:55:46] DEBUG: Query: 
+            ALTER TABLE Adresse ADD COLUMN Plz varchar(6) NOT NULL REFERENCES Ort(Plz);[07:55:46] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[07:55:46] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[07:55:46] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[07:55:46] DEBUG: Query: 
+            ALTER TABLE Mitarbeiter ADD COLUMN AbteilungId INTEGER NOT NULL REFERENCES Abteilung(Id);[07:55:46] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[07:55:46] DEBUG: Query: 
+            ALTER TABLE Abteilung ADD COLUMN LeiterId INTEGER REFERENCES Mitarbeiter(Id);[07:56:47] DEBUG: Mitarbeiter init complete.[07:58:55] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:58:55] DEBUG: Query Response: [][07:58:55] DEBUG: Query: 
+        SELECT * FROM Job[07:58:55] DEBUG: Query Response: [][07:58:55] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:58:55] DEBUG: Query Response: [][07:58:59] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:58:59] DEBUG: Query Response: [][07:59:01] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:59:01] DEBUG: Query Response: [][07:59:09] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:59:09] DEBUG: Query Response: [][07:59:10] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[07:59:10] DEBUG: Query: 
+        INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
+        VALUES (0, 'IT', 'Die IT-Abteilung.', NULL)[07:59:12] DEBUG: Query: 
+        SELECT * FROM Job[07:59:12] DEBUG: Query Response: [][07:59:13] DEBUG: Query: 
+        SELECT * FROM Job[07:59:13] DEBUG: Query Response: [][07:59:20] DEBUG: Query: 
+        SELECT MAX(Id) from Job;[07:59:20] DEBUG: Query: 
+        INSERT INTO Job (Id, Titel)
+        VALUES (1, 'Systemadmin')[07:59:22] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[07:59:22] DEBUG: Query Response: [][07:59:22] DEBUG: Query: 
+        SELECT * FROM Job[07:59:22] DEBUG: Query Response: [(1, 'Systemadmin')][07:59:22] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:59:22] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None)][07:59:29] DEBUG: Query: 
+        SELECT * FROM Job[07:59:29] DEBUG: Query Response: [(1, 'Systemadmin')][07:59:30] DEBUG: Query: 
+        SELECT * FROM Abteilung[07:59:30] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None)][08:00:04] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:00:04] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:00:04] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:00:04] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:00:04] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:00:04] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:00:04] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:00:04] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:00:06] DEBUG: Mitarbeiter init complete.[08:00:12] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:00:12] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None)][08:01:16] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:01:16] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:01:16] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:01:16] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:01:16] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:01:16] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:01:16] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:01:16] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:01:17] DEBUG: Mitarbeiter init complete.[08:01:37] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:01:37] DEBUG: Query Response: [][08:02:04] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[08:02:18] DEBUG: Query: 
+        INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
+        VALUES (1, 'Softwareentwicklung', 'Die Devateilung', NULL)[08:02:38] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:02:38] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None), (1, 'Softwareentwicklung', 'Die Devateilung', None)][08:02:57] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:02:57] DEBUG: Query Response: [][08:02:57] DEBUG: Query: 
+        SELECT * FROM Job[08:02:57] DEBUG: Query Response: [(1, 'Systemadmin')][08:02:57] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:02:57] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None), (1, 'Softwareentwicklung', 'Die Devateilung', None)][08:03:01] DEBUG: Query: 
+        SELECT * FROM Job[08:03:01] DEBUG: Query Response: [(1, 'Systemadmin')][08:03:03] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:03:03] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None), (1, 'Softwareentwicklung', 'Die Devateilung', None)][08:03:11] DEBUG: Query: 
+        SELECT MAX(Id) from Mitarbeiter;[08:03:11] DEBUG: Query: 
+        SELECT MAX(Id) from Adresse;[08:03:11] DEBUG: Query: 
+        INSERT INTO Adresse (Id, Strasse, Hausnummer, Zusatz, Plz)
+        VALUES (1, 'Teststraﬂe', '12', '61209', '-')[08:03:11] DEBUG: Query: 
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId, AbteilungId)
+        VALUES (1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', 1, 1, 0)[08:03:13] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:03:13] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:03:13] DEBUG: Query: 
+        SELECT * FROM Job[08:03:13] DEBUG: Query Response: [(1, 'Systemadmin')][08:03:13] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:03:13] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None), (1, 'Softwareentwicklung', 'Die Devateilung', None)][08:03:14] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:03:39] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:03:47] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:03:47] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:03:48] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:03:48] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:03:49] DEBUG: Query: 
+        SELECT * FROM Job[08:03:49] DEBUG: Query Response: [(1, 'Systemadmin')][08:03:49] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:03:49] DEBUG: Query Response: [(0, 'IT', 'Die IT-Abteilung.', None), (1, 'Softwareentwicklung', 'Die Devateilung', None)][08:03:49] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:03:49] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[08:03:49] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:03:49] DEBUG: Query: 
+        SELECT * FROM Abteilung WHERE Id = 0[08:05:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:05:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:05:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:05:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:05:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:05:55] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:05:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:05:55] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:05:56] DEBUG: Mitarbeiter init complete.[08:06:26] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:06:36] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:07:27] DEBUG: Query: 
+            UPDATE Adresse SET Strasse = 'Teststraﬂe', Hausnummer = '13', Zusatz = '-', Plz = '61209' WHERE Id = 1[08:07:27] DEBUG: Query: 
+        UPDATE Mitarbeiter SET Vorname = 'Patrick', Nachname = 'Pfaff', Geburtsdatum = 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', AngestelltSeit = 'Tue Jun 25 2024 08:02:58 GMT+0200 (Central European Summer Time)', JobId = 1, AbteilungId = 0 WHERE Id = 1[08:07:41] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:07:41] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:07:41] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:07:41] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:07:41] DEBUG: Query: 
+            ALTER TABLE Adresse ADD COLUMN Plz varchar(6) NOT NULL REFERENCES Ort(Plz);[08:07:41] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:07:41] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:07:41] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:07:41] DEBUG: Query: 
+            ALTER TABLE Mitarbeiter ADD COLUMN AbteilungId INTEGER NOT NULL REFERENCES Abteilung(Id);[08:07:41] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:07:41] DEBUG: Query: 
+            ALTER TABLE Abteilung ADD COLUMN LeiterId INTEGER REFERENCES Mitarbeiter(Id);[08:08:31] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:08:31] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:08:31] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:08:31] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:08:31] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:08:31] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:08:31] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:08:31] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:08:43] DEBUG: Mitarbeiter init complete.[08:08:47] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:08:47] DEBUG: Query Response: [][08:08:49] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[08:08:49] DEBUG: Query: 
+        INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
+        VALUES (0, 'Softwareentwicklung', 'Die Softwareentwicklungsabteilung', NULL)[08:08:56] DEBUG: Query: 
+        SELECT * FROM Job[08:08:56] DEBUG: Query Response: [][08:08:57] DEBUG: Query: 
+        SELECT * FROM Job[08:08:57] DEBUG: Query Response: [][08:09:05] DEBUG: Query: 
+        SELECT MAX(Id) from Job;[08:09:05] DEBUG: Query: 
+        INSERT INTO Job (Id, Titel)
+        VALUES (1, 'Softwareentwickler')[08:09:06] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:09:06] DEBUG: Query Response: [][08:09:06] DEBUG: Query: 
+        SELECT * FROM Job[08:09:06] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:09:06] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:09:06] DEBUG: Query Response: [(0, 'Softwareentwicklung', 'Die Softwareentwicklungsabteilung', None)][08:09:10] DEBUG: Query: 
+        SELECT * FROM Job[08:09:10] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:09:11] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:09:11] DEBUG: Query Response: [(0, 'Softwareentwicklung', 'Die Softwareentwicklungsabteilung', None)][08:09:28] DEBUG: Query: 
+        SELECT MAX(Id) from Mitarbeiter;[08:09:28] DEBUG: Query: 
+        SELECT MAX(Id) from Adresse;[08:09:28] DEBUG: Query: 
+        INSERT INTO Adresse (Id, Strasse, Hausnummer, Zusatz, Plz)
+        VALUES (1, 'Teststraﬂe', '12', '61209', '-')[08:09:28] DEBUG: Query: 
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId, AbteilungId)
+        VALUES (1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)[08:09:32] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:09:32] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:09:32] DEBUG: Query: 
+        SELECT * FROM Job[08:09:32] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:09:32] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:09:32] DEBUG: Query Response: [(0, 'Softwareentwicklung', 'Die Softwareentwicklungsabteilung', None)][08:09:34] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:09:34] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:09:38] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:09:38] DEBUG: Query Response: [(0, 'Softwareentwicklung', 'Die Softwareentwicklungsabteilung', None)][08:09:43] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:09:43] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:09:43] DEBUG: Query: 
+        SELECT * FROM Abteilung WHERE Id = 0[08:09:47] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:09:47] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:09:48] DEBUG: Query: 
+        UPDATE Abteilung SET Name = 'Die Softwareentwicklungsabteilung', Beschreibung = 'Softwareentwicklung', LeiterId = '1' WHERE Id = 0[08:09:51] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:09:51] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:09:55] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:09:55] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[08:10:38] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:10:38] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:10:38] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:10:38] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:10:38] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:10:38] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:10:38] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:10:38] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:10:39] DEBUG: Mitarbeiter init complete.[08:10:40] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:10:40] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:11:26] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Job (
+            Id int NOT NULL,
+            Titel varchar(255) NOT NULL,
+            PRIMARY KEY (Id)
+        );[08:11:26] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Ort (
+            Plz varchar(6) NOT NULL,
+            Name varchar(255) NOT NULL,
+            PRIMARY KEY (Plz)
+        );[08:11:26] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Adresse (
+            Id int NOT NULL,
+            Strasse varchar(255) NOT NULL,
+            Hausnummer varchar(10) NOT NULL,
+            Zusatz varchar(1024)
+        );[08:11:26] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Adresse') WHERE name='Plz'[08:11:26] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Mitarbeiter (
+            Id int NOT NULL,
+            Vorname varchar(255) NOT NULL,
+            Nachname varchar(255) NOT NULL,
+            Geburtsdatum varchar(255) NOT NULL,
+            AngestelltSeit varchar(255) NOT NULL,
+            JobId int NOT NULL REFERENCES Job(Id),
+            AdresseId int NOT NULL REFERENCES Adresse(Id),
+            PRIMARY KEY (Id)
+        );[08:11:26] DEBUG: Query: 
+        CREATE TABLE IF NOT EXISTS Abteilung (
+            Id int NOT NULL,
+            Name varchar(255) NOT NULL,
+            Beschreibung varchar(1024),
+            PRIMARY KEY (Id)
+        );[08:11:26] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Mitarbeiter') WHERE name='AbteilungId'[08:11:26] DEBUG: Query: 
+        SELECT COUNT(*) AS CNTREC FROM pragma_table_info('Abteilung') WHERE name='LeiterId'[08:11:27] DEBUG: Mitarbeiter init complete.[08:11:30] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:11:30] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:11:32] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:11:32] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:11:33] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:11:33] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[08:11:36] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:11:36] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:11:37] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:11:37] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[08:12:30] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:12:30] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:12:33] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:12:33] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:12:39] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:12:39] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:12:45] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:12:45] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:12:54] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:12:54] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:07] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:07] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:18] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:18] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:20] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:20] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:36] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:36] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:43] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:43] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:49] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:49] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:49] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:13:49] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:13:58] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:13:58] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:13:58] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:58] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:59] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:13:59] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:13:59] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:13:59] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:02] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:14:02] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:02] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:02] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:14:21] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:21] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:14:21] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:14:21] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:26] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:14:26] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:26] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:26] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:14:28] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:28] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:14:28] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:14:28] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:43] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter WHERE Id = 1[08:14:43] DEBUG: Query: 
+        SELECT * FROM Job WHERE Id = 1[08:14:52] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:14:52] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0)][08:14:52] DEBUG: Query: 
+        SELECT * FROM Job[08:14:52] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:52] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:14:52] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:14:58] DEBUG: Query: 
+        SELECT * FROM Job[08:14:58] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:14:59] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:14:59] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:15:12] DEBUG: Query: 
+        SELECT MAX(Id) from Mitarbeiter;[08:15:12] DEBUG: Query: 
+        SELECT MAX(Id) from Adresse;[08:15:12] DEBUG: Query: 
+        INSERT INTO Adresse (Id, Strasse, Hausnummer, Zusatz, Plz)
+        VALUES (2, 'Teststraﬂe', '14', '61209', '-')[08:15:12] DEBUG: Query: 
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId, AbteilungId)
+        VALUES (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)[08:15:29] DEBUG: Query: 
+        SELECT * FROM Job[08:15:29] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:15:29] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:15:29] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:15:29] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:15:29] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:15:30] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 2[08:15:30] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:27:11] DEBUG: Query: 
+        SELECT * FROM Job[08:27:11] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:27:11] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:27:11] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:27:11] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:27:11] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:38:55] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:38:55] DEBUG: Query: 
+        SELECT * FROM Job[08:38:55] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:38:55] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:38:55] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:38:55] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:39:02] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 1[08:39:02] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:39:13] DEBUG: Query: 
+        SELECT * FROM Job[08:39:13] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:39:14] DEBUG: Query: 
+        SELECT * FROM Job[08:39:14] DEBUG: Query Response: [(1, 'Softwareentwickler')][08:39:19] DEBUG: Query: 
+        SELECT MAX(Id) from Job;[08:39:19] DEBUG: Query: 
+        INSERT INTO Job (Id, Titel)
+        VALUES (2, 'Systemadmin')[08:39:20] DEBUG: Query: 
+        SELECT * FROM Job[08:39:20] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:39:26] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:39:26] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1)][08:39:26] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:39:26] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:39:28] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:39:28] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:39:35] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:39:35] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:39:39] DEBUG: Query: 
+        SELECT MAX(Id) from Abteilung;[08:39:39] DEBUG: Query: 
+        INSERT INTO Abteilung (Id, Name, Beschreibung, LeiterId)
+        VALUES (1, 'IT', 'Die IT Abteilung', NULL)[08:39:42] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:39:42] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0)][08:39:42] DEBUG: Query: 
+        SELECT * FROM Job[08:39:42] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:39:42] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:39:42] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'IT', 'Die IT Abteilung', None)][08:39:48] DEBUG: Query: 
+        SELECT * FROM Job[08:39:48] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:39:50] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:39:50] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'IT', 'Die IT Abteilung', None)][08:39:52] DEBUG: Query: 
+        SELECT * FROM Job[08:39:52] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:40:02] DEBUG: Query: 
+        SELECT * FROM Job[08:40:02] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:40:04] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:40:04] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'IT', 'Die IT Abteilung', None)][08:40:20] DEBUG: Query: 
+        SELECT MAX(Id) from Mitarbeiter;[08:40:20] DEBUG: Query: 
+        SELECT MAX(Id) from Adresse;[08:40:20] DEBUG: Query: 
+        INSERT INTO Adresse (Id, Strasse, Hausnummer, Zusatz, Plz)
+        VALUES (3, 'Test', '12', '61209', '-')[08:40:20] DEBUG: Query: 
+        INSERT INTO Mitarbeiter (Id, Vorname, Nachname, Geburtsdatum, AngestelltSeit, JobId, AdresseId, AbteilungId)
+        VALUES (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)[08:40:22] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:40:22] DEBUG: Query: 
+        SELECT * FROM Job[08:40:22] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:40:22] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][08:40:22] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:40:22] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'IT', 'Die IT Abteilung', None)][08:40:23] DEBUG: Query: 
+        SELECT * FROM Adresse WHERE Id = 3[08:40:23] DEBUG: Query: 
+        SELECT Name FROM Ort WHERE Plz = '61209'[08:40:44] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:40:44] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'IT', 'Die IT Abteilung', None)][08:40:44] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:40:44] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:40:46] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:40:46] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:40:46] DEBUG: Query: 
+        SELECT * FROM Abteilung WHERE Id = 1[08:40:47] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:40:47] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:40:50] DEBUG: Query: 
+        UPDATE Abteilung SET Name = 'Die IT Abteilung', Beschreibung = 'IT', LeiterId = '3' WHERE Id = 1[08:40:53] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:40:53] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][08:40:53] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:40:53] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:41:16] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:41:16] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][08:41:40] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:41:40] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][08:48:17] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:48:17] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:48:17] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][08:48:17] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][08:48:34] DEBUG: Query: 
+        SELECT * FROM Abteilung[08:48:34] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][08:48:34] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[08:48:34] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][09:27:37] DEBUG: Query: 
+        SELECT * FROM Abteilung[09:27:37] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][09:27:37] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[09:27:37] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][09:27:38] DEBUG: Query: 
+        SELECT * FROM Abteilung[09:27:38] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[09:27:38] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][09:27:38] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][09:28:00] DEBUG: Query: 
+        SELECT * FROM Abteilung[09:28:00] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][09:28:00] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[09:28:00] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][10:48:15] DEBUG: Query: 
+        SELECT * FROM Abteilung[10:48:15] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][10:48:32] DEBUG: Query: 
+        SELECT * FROM Abteilung[10:48:32] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][10:48:32] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[10:48:32] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][10:48:35] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[10:48:35] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][10:48:35] DEBUG: Query: 
+        SELECT * FROM Job[10:48:35] DEBUG: Query Response: [(1, 'Softwareentwickler'), (2, 'Systemadmin')][10:48:35] DEBUG: Query: 
+        SELECT * FROM Abteilung[10:48:35] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][10:48:39] DEBUG: Query: 
+        SELECT * FROM Abteilung[10:48:39] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][10:48:39] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[10:48:39] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)][10:49:13] DEBUG: Query: 
+        SELECT * FROM Abteilung[10:49:13] DEBUG: Query Response: [(0, 'Die Softwareentwicklungsabteilung', 'Softwareentwicklung', 1), (1, 'Die IT Abteilung', 'IT', 3)][10:49:13] DEBUG: Query: 
+        SELECT * FROM Mitarbeiter[10:49:13] DEBUG: Query Response: [(1, 'Patrick', 'Pfaff', 'Tue Jun 25 2024 08:09:08 GMT+0200 (Central European Summer Time)', 'Wed Aug 31 2022 00:00:00 GMT+0200 (Central European Summer Time)', 1, 1, 0), (2, 'Max', 'Mustermann', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:14:53 GMT+0200 (Central European Summer Time)', 1, 2, 0), (3, 'Dagobert', 'Duck', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 'Tue Jun 25 2024 08:39:43 GMT+0200 (Central European Summer Time)', 2, 3, 1)]

@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AbteilungenComponent implements OnInit{
   public abteilungen: Abteilung[] = [];
   public selectedAbteilung: Abteilung | undefined;
+  public mitarbeiter: Mitarbeiter[] = [];
   public currentLeiter: Mitarbeiter | undefined;
   public currentLeiterJob: string = '';
 
@@ -21,6 +22,9 @@ export class AbteilungenComponent implements OnInit{
   ngOnInit(): void {
     this.apiClient.get_all_abteilungen().subscribe(abteilungen => {
       this.abteilungen = abteilungen;
+    });
+    this.apiClient.get_all_mitarbeiter().subscribe(mitarbeiter => {
+      this.mitarbeiter = mitarbeiter;
     });
   }
 
@@ -62,6 +66,11 @@ export class AbteilungenComponent implements OnInit{
         console.log(this.selectedAbteilung);
       }
     
+    }
+
+    getLeiterById(leiterId: number) {
+      let m = this.mitarbeiter.find(m => m.id === leiterId);
+      return m?.vorname + ' ' + m?.nachname;
     }
   }
 
